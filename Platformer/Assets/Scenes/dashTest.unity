@@ -503,10 +503,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 840436348}
-  speed: 10
+  speed: 7
   dash: 0
   dashSpeed: 3
-  dashDuration: 0.1
+  dashDuration: 0.2
   dashCooldown: 0.5
   cooldown: 0.1
   firstJumpHeight: 20
