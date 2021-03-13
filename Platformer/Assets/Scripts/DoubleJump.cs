@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,10 +25,10 @@ public class DoubleJump : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
             if(firstJump) {
                 jumpStartTime = Time.time;
-                rb.velocity = (Vector2.up * firstJumpHeight);
+                rb.velocity = new Vector2(rb.velocity.x, (Vector2.up * firstJumpHeight).y);
                 firstJump = false;
             } else if(secondJump && Time.time - jumpStartTime >= cooldown) {
-                rb.velocity = (Vector2.up * secondJumpHeight);
+                rb.velocity = new Vector2(rb.velocity.x, (Vector2.up * secondJumpHeight).y);
                 secondJump = false;
             }
         }
