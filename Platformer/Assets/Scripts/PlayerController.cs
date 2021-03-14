@@ -31,6 +31,17 @@ public class PlayerController : MonoBehaviour
     float jumpStartTime;
     float yvel = 0f;
 
+    //Wall Jump
+    bool isTouchingWall;
+    bool wallSliding;
+    public float wallSlidingSpeed;
+    public float xWallForce;
+    public float yWallForce;
+    public float wallJumpTime;
+    bool wallJumping;
+    int direction;
+
+
     public bool canMove = true;
 
     public float initial_x;
@@ -61,6 +72,7 @@ public class PlayerController : MonoBehaviour
             //Left Right Movement
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
+                direction = -1;
                 moveVelocity = -speed;
                 if (facingRight)
                 {
@@ -69,6 +81,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
+                direction = 1;
                 moveVelocity = speed;
                 if (!facingRight)
                 {
@@ -89,6 +102,11 @@ public class PlayerController : MonoBehaviour
                 {
                     yvel =  secondJumpHeight;
                     secondJump = false;
+                }
+
+                if (wallSliding) {
+                    wallJumping = true;
+                    Invoke("setWallJumpingToFalse", wallJumpTime);
                 }
             }
 
@@ -118,8 +136,28 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            //Wall Jump
+            if (isTouchingWall && !firstJump && moveVelocity != 0) {
+                wallSliding = true;
+            } else {
+                wallSliding = false;
+            }
+
+            if (wallSliding) {
+                yvel = Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue);
+            }
+
+            if (wallJumping) {
+                moveVelocity = xWallForce * -direction;
+                yvel = yWallForce;
+            }
+
             rb.velocity = new Vector2(moveVelocity, yvel);
         }
+    }
+    
+    void setWallJumpingToFalse() {
+        wallJumping = false;
     }
 
     void reverseImage()
@@ -133,12 +171,31 @@ public class PlayerController : MonoBehaviour
         cscale.x *= -1;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.tag == "Platform")
+        if (col.collider.tag == "Platform")
         {
             firstJump = true;
             secondJump = true;
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D col) 
+    {
+        if (col.collider.tag == "Wall") 
+        {
+            isTouchingWall = true;
+            // wallJump = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.collider.tag == "Wall") 
+        {
+            isTouchingWall = false;
+            secondJump = true;
+            // wallJump = false;
         }
     }
 }
