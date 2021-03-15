@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     public GameObject cam;
 
+    bool isTouchingPlat;
+
+    public float deceleration;
+    public float acceleration;
+
     //Movement
     public float speed;
     float moveVelocity;
@@ -32,15 +37,13 @@ public class PlayerController : MonoBehaviour
     float yvel = 0f;
 
     //Wall Jump
-    bool isTouchingWall;
+    bool touchingWallLeft;
+    bool touchingWallRight;
     bool wallSliding;
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
-    public float wallJumpTime;
-    bool wallJumping;
     int direction;
-
 
     public bool canMove = true;
 
@@ -62,18 +65,44 @@ public class PlayerController : MonoBehaviour
         initial_y = transform.position.y;
     }
 
+    void decelerate() {
+        if(moveVelocity <= 0.1f && moveVelocity >= -0.1f) {
+            moveVelocity = 0;
+        } else {
+            moveVelocity -= moveVelocity / deceleration;
+        }
+    }
+
+    void accelerate(float s) {
+        if(s < 0) {
+            if(moveVelocity <= s + 0.1f) {
+                moveVelocity = s;
+            } else {
+                moveVelocity -= acceleration;
+            }
+        } else {
+            if(moveVelocity >= s - 0.1f) {
+                moveVelocity = s;
+            } else {
+                moveVelocity += acceleration;
+            }
+        }
+    }
+
     void Update()
     {
         if (canMove)
         {
-            moveVelocity = 0;
+            if(isTouchingPlat) {
+                decelerate();
+            }
             yvel = rb.velocity.y;
 
             //Left Right Movement
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
                 direction = -1;
-                moveVelocity = -speed;
+                accelerate(-speed);
                 if (facingRight)
                 {
                     reverseImage();
@@ -82,7 +111,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
                 direction = 1;
-                moveVelocity = speed;
+                accelerate(speed);
                 if (!facingRight)
                 {
                     reverseImage();
@@ -98,21 +127,27 @@ public class PlayerController : MonoBehaviour
                     yvel = firstJumpHeight;
                     firstJump = false;
                 }
-                else if (secondJump && Time.time - jumpStartTime >= cooldown)
+                else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding)
                 {
                     yvel =  secondJumpHeight;
                     secondJump = false;
                 }
 
-                if (wallSliding) {
-                    wallJumping = true;
-                    Invoke("setWallJumpingToFalse", wallJumpTime);
+                if (wallSliding && touchingWallLeft) {
+                    moveVelocity = xWallForce;
+                    yvel = yWallForce;
+                    wallSliding = false;
+                    touchingWallLeft = false;
+                } else if (wallSliding && touchingWallRight) {
+                    moveVelocity = -xWallForce;
+                    yvel = yWallForce;
+                    wallSliding = false;
+                    touchingWallRight = false;
                 }
             }
 
             //Dash
-            if (Input.GetKey(KeyCode.LeftShift))
-            if (Input.GetKey(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f)
             {
                 dash = true;
                 dashTimer = 0.0f;
@@ -126,7 +161,11 @@ public class PlayerController : MonoBehaviour
             //Do not fall during dash, end dash if past timer
             if (dash)
             {
-                moveVelocity *= dashSpeed;
+                if(moveVelocity > 0) {
+                    moveVelocity = dashSpeed;
+                } else if(moveVelocity < 0) {
+                    moveVelocity = -dashSpeed;
+                }
                 //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
                 yvel = 0;
                 if (dashTimer > dashDuration)
@@ -137,7 +176,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Wall Jump
-            if (isTouchingWall && !firstJump && moveVelocity != 0) {
+            if ((touchingWallLeft || touchingWallRight) && !firstJump) {
                 wallSliding = true;
             } else {
                 wallSliding = false;
@@ -147,17 +186,8 @@ public class PlayerController : MonoBehaviour
                 yvel = Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue);
             }
 
-            if (wallJumping) {
-                moveVelocity = xWallForce * -direction;
-                yvel = yWallForce;
-            }
-
             rb.velocity = new Vector2(moveVelocity, yvel);
         }
-    }
-    
-    void setWallJumpingToFalse() {
-        wallJumping = false;
     }
 
     void reverseImage()
@@ -173,10 +203,11 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.tag == "Platform")
+        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y)
         {
             firstJump = true;
             secondJump = true;
+            isTouchingPlat = true;
         }
     }
 
@@ -184,8 +215,17 @@ public class PlayerController : MonoBehaviour
     {
         if (col.collider.tag == "Wall") 
         {
-            isTouchingWall = true;
-            // wallJump = true;
+            if(col.transform.position.x < transform.position.x) {
+                touchingWallLeft = true;
+                if(moveVelocity < 0) {
+                    moveVelocity = 0;
+                }
+            } else if(col.transform.position.x >= transform.position.x) {
+                touchingWallRight = true;
+                if(moveVelocity > 0) {
+                    moveVelocity = 0;
+                }
+            }
         }
     }
 
@@ -193,9 +233,12 @@ public class PlayerController : MonoBehaviour
     {
         if (col.collider.tag == "Wall") 
         {
-            isTouchingWall = false;
-            secondJump = true;
-            // wallJump = false;
+            touchingWallLeft = false;
+            touchingWallRight = false;
+        }
+        if (col.collider.tag == "Platform") {
+            isTouchingPlat = false;
+            firstJump = false;
         }
     }
 }
