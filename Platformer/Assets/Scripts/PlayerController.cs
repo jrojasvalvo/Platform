@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     bool isTouchingPlat;
 
+    public double playerHeight;
+
     public float deceleration;
     public float acceleration;
 
@@ -221,7 +223,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y)
+        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2))
         {
             firstJump = true;
             secondJump = true;
@@ -245,7 +247,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y) {
+        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             dashReset = true;
         }
     }
