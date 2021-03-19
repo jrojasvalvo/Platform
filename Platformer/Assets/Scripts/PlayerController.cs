@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (col.collider.tag == "Platform") {
+        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y) {
             dashReset = true;
         }
     }
