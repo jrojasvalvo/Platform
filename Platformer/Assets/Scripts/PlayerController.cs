@@ -5,6 +5,11 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    AudioSource[] sounds;
+    AudioSource jump1Sound;
+    AudioSource jump2Sound;
+    AudioSource dashSound;
+
     private Rigidbody2D rb;
     private Animator anim;
     public GameObject cam;
@@ -54,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
     public bool dead;
 
+    public bool dashReset;
+
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -63,6 +70,11 @@ public class PlayerController : MonoBehaviour
         camera_init = cam.transform.position;
         initial_x = transform.position.x;
         initial_y = transform.position.y;
+        sounds = GetComponents<AudioSource>();
+        jump1Sound = sounds[0];
+        jump2Sound = sounds[1];
+        dashSound = sounds[2];
+        dashReset = false;
     }
 
     void decelerate() {
@@ -123,22 +135,26 @@ public class PlayerController : MonoBehaviour
             {
                 if (firstJump)
                 {
+                    jump1Sound.Play();
                     jumpStartTime = Time.time;
                     yvel = firstJumpHeight;
                     firstJump = false;
                 }
                 else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding)
                 {
+                    jump2Sound.Play();
                     yvel =  secondJumpHeight;
                     secondJump = false;
                 }
 
                 if (wallSliding && touchingWallLeft) {
+                    jump2Sound.Play();
                     moveVelocity = xWallForce;
                     yvel = yWallForce;
                     wallSliding = false;
                     touchingWallLeft = false;
                 } else if (wallSliding && touchingWallRight) {
+                    jump2Sound.Play();
                     moveVelocity = -xWallForce;
                     yvel = yWallForce;
                     wallSliding = false;
@@ -147,11 +163,13 @@ public class PlayerController : MonoBehaviour
             }
 
             //Dash
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
             {
+                dashSound.Play();
                 dash = true;
                 dashTimer = 0.0f;
                 dashCooldownTimer = dashCooldown;
+                dashReset = false;
             }
             
             //Update dash timers. Cannot dash infinitely.
@@ -226,6 +244,9 @@ public class PlayerController : MonoBehaviour
                     moveVelocity = 0;
                 }
             }
+        }
+        if (col.collider.tag == "Platform") {
+            dashReset = true;
         }
     }
 
