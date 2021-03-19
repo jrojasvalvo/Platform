@@ -5,6 +5,8 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    Transform[] movables;
+
     AudioSource[] sounds;
     AudioSource jump1Sound;
     AudioSource jump2Sound;
@@ -50,7 +52,6 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
-    int direction;
 
     public bool canMove = true;
 
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
         jump2Sound = sounds[1];
         dashSound = sounds[2];
         dashReset = false;
+        movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
     }
 
     void decelerate() {
@@ -104,7 +106,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        if(transform.position.y <= -5f) {
+            resetRoom();
+        }
         if (canMove)
         {
             if(isTouchingPlat) {
@@ -115,7 +120,6 @@ public class PlayerController : MonoBehaviour
             //Left Right Movement
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
-                direction = -1;
                 accelerate(-speed);
                 if (facingRight)
                 {
@@ -124,7 +128,6 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
-                direction = 1;
                 accelerate(speed);
                 if (!facingRight)
                 {
@@ -172,6 +175,10 @@ public class PlayerController : MonoBehaviour
                 dashTimer = 0.0f;
                 dashCooldownTimer = dashCooldown;
                 dashReset = false;
+            }
+
+            if(Input.GetKeyDown(KeyCode.R)) {
+                resetRoom();
             }
             
             //Update dash timers. Cannot dash infinitely.
@@ -263,6 +270,16 @@ public class PlayerController : MonoBehaviour
         if (col.collider.tag == "Platform") {
             isTouchingPlat = false;
             firstJump = false;
+        }
+    }
+
+    void resetRoom() {
+        float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 10.5f;
+        transform.position = new Vector3(resetX, -3f, 0f);
+        yvel = 0f;
+        moveVelocity = 0f;
+        for(int i = 1; i < movables.Length; i++) {
+            movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
     }
 }
