@@ -235,6 +235,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.collider.tag == "Wall") 
         {
+            dashReset = true;
             if(col.transform.position.x < transform.position.x) {
                 touchingWallLeft = true;
                 if(moveVelocity < 0) {
