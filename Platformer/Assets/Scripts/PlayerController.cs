@@ -188,9 +188,9 @@ public class PlayerController : MonoBehaviour
             //Do not fall during dash, end dash if past timer
             if (dash)
             {
-                if(moveVelocity > 0) {
+                if(facingRight) {
                     moveVelocity = dashSpeed;
-                } else if(moveVelocity < 0) {
+                } else{
                     moveVelocity = -dashSpeed;
                 }
                 //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
