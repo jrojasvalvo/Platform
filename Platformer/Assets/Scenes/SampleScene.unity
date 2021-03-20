@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 1217029097}
   m_Layer: 0
   m_Name: Square (5)
-  m_TagString: Platform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1328,6 +1328,11 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3825089453993855681, guid: d2fd251c9e35d744f8f92c95d5292b22,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3825089453993855682, guid: d2fd251c9e35d744f8f92c95d5292b22,
         type: 3}
       propertyPath: m_Radius
@@ -1367,12 +1372,12 @@ PrefabInstance:
     - target: {fileID: 3825089453993855692, guid: d2fd251c9e35d744f8f92c95d5292b22,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3825089453993855692, guid: d2fd251c9e35d744f8f92c95d5292b22,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3825089453993855692, guid: d2fd251c9e35d744f8f92c95d5292b22,
         type: 3}
