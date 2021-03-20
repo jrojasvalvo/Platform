@@ -257,6 +257,7 @@ public class PlayerController : MonoBehaviour
         }
         if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             dashReset = true;
+            isTouchingPlat = true;
         }
     }
 

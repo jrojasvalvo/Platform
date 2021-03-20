@@ -796,7 +796,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -810,7 +810,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.49}
+  m_Size: {x: 0.25, y: 0.54}
   m_EdgeRadius: 0
 --- !u!1 &1495512141
 GameObject:
@@ -1446,6 +1446,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3825089453993855693, guid: d2fd251c9e35d744f8f92c95d5292b22,
         type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3825089453993855693, guid: d2fd251c9e35d744f8f92c95d5292b22,
+        type: 3}
       propertyPath: m_UsedByEffector
       value: 0
       objectReference: {fileID: 0}
@@ -1456,6 +1461,7 @@ PrefabInstance:
       objectReference: {fileID: 519420028}
     m_RemovedComponents:
     - {fileID: 5436209649508128059, guid: d2fd251c9e35d744f8f92c95d5292b22, type: 3}
+    - {fileID: 3825089453993855682, guid: d2fd251c9e35d744f8f92c95d5292b22, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d2fd251c9e35d744f8f92c95d5292b22, type: 3}
 --- !u!1001 &5837237032349447681
 PrefabInstance:
