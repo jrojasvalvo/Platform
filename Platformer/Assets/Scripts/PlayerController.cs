@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        facingRight = true;
+        facingRight = false;
         dead = false;
         camera_init = cam.transform.position;
         initial_x = transform.position.x;
