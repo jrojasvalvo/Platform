@@ -62,7 +62,11 @@ public class PlayerController : MonoBehaviour
 
     public bool dead;
 
-    public bool dashReset;
+    bool dashReset;
+    
+    public bool canDash;
+    public bool canDoubleJump;
+    public bool canWallJump;
 
     void Start()
     {
@@ -145,20 +149,20 @@ public class PlayerController : MonoBehaviour
                     yvel = firstJumpHeight;
                     firstJump = false;
                 }
-                else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding)
+                else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding && canDoubleJump)
                 {
                     jump2Sound.Play();
                     yvel =  secondJumpHeight;
                     secondJump = false;
                 }
 
-                if (wallSliding && touchingWallLeft) {
+                if (wallSliding && touchingWallLeft && canWallJump) {
                     jump2Sound.Play();
                     moveVelocity = xWallForce;
                     yvel = yWallForce;
                     wallSliding = false;
                     touchingWallLeft = false;
-                } else if (wallSliding && touchingWallRight) {
+                } else if (wallSliding && touchingWallRight && canWallJump) {
                     jump2Sound.Play();
                     moveVelocity = -xWallForce;
                     yvel = yWallForce;
@@ -168,7 +172,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Dash
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash)
             {
                 dashSound.Play();
                 dash = true;
@@ -203,7 +207,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Wall Jump
-            if ((touchingWallLeft || touchingWallRight) && !firstJump) {
+            if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
                 wallSliding = true;
             } else {
                 wallSliding = false;
@@ -240,7 +244,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col) 
     {
-        if (col.collider.tag == "Wall") 
+        if (col.collider.tag == "Wall" && canWallJump) 
         {
             dashReset = true;
             if(col.transform.position.x < transform.position.x) {
@@ -258,6 +262,7 @@ public class PlayerController : MonoBehaviour
         if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             dashReset = true;
             isTouchingPlat = true;
+            firstJump = true;
         }
     }
 
