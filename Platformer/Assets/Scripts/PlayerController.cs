@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
             }
 
             rb.velocity = new Vector2(moveVelocity, yvel);
+            anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
         }
     }
 
