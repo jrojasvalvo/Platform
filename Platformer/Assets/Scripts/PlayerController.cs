@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(facingRight) {
                     moveVelocity = dashSpeed;
-                } else{
+                } else {
                     moveVelocity = -dashSpeed;
                 }
                 //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
