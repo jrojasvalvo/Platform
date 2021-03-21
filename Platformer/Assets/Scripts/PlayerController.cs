@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     AudioSource jump1Sound;
     AudioSource jump2Sound;
     AudioSource dashSound;
+    AudioSource deathSound;
+    AudioSource music;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -81,8 +83,12 @@ public class PlayerController : MonoBehaviour
         jump1Sound = sounds[0];
         jump2Sound = sounds[1];
         dashSound = sounds[2];
+        deathSound = sounds[3];
+        music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
+
+        music.Play();
     }
 
     void decelerate() {
@@ -112,6 +118,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {   
         if(transform.position.y <= -5f) {
+            StartCoroutine(MusicCoroutine());
+            deathSound.Play();
             resetRoom();
         }
         if (canMove)
@@ -295,5 +303,26 @@ public class PlayerController : MonoBehaviour
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
+    }
+
+    IEnumerator MusicCoroutine()
+    {
+        music.volume = 0.1f;
+        yield return new WaitForSeconds(1.8f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
+        yield return new WaitForSeconds(0.05f);
+        music.volume += 0.05f;
     }
 }
