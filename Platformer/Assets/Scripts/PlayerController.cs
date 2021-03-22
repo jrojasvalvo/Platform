@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
     public bool canDoubleJump;
     public bool canWallJump;
 
+    public BoxCollider2D pushCollider;
+
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -227,14 +229,35 @@ public class PlayerController : MonoBehaviour
 
             rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-            anim.SetFloat("yvel", rb.velocity.y);
+            if(rb.velocity.y >= -0.1f && rb.velocity.y <= 0.1f) {
+                anim.SetBool("movingUp", false);
+                anim.SetBool("movingDown", false);
+            } else if (rb.velocity.y < -0.1f) {
+                anim.SetBool("movingDown", true);
+                anim.SetBool("movingUp", false);
+            } else if (rb.velocity.y > 0.1f) {
+                anim.SetBool("movingUp", true);
+                anim.SetBool("movingDown", false);
+            }
+            if(rb.velocity.x == 0.0f) {
+                anim.SetBool("pushing", false);
+            }
         }
     }
 
     void FixedUpdate()
     {
         anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-        anim.SetFloat("yvel", rb.velocity.y);
+        if(rb.velocity.y == 0.0f) {
+            anim.SetBool("movingUp", false);
+            anim.SetBool("movingDown", false);
+        } else if (rb.velocity.y < 0.0f) {
+            anim.SetBool("movingDown", true);
+            anim.SetBool("movingUp", false);
+        } else {
+            anim.SetBool("movingUp", true);
+            anim.SetBool("movingDown", false);
+        }
     }
 
     void reverseImage()
@@ -250,7 +273,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2))
+        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
+            col.transform.position.y <= transform.position.y - (playerHeight / 2))
         {
             firstJump = true;
             secondJump = true;
@@ -275,10 +299,30 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (col.collider.tag == "Platform" && col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
+        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
+            col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             dashReset = true;
             isTouchingPlat = true;
             firstJump = true;
+        } 
+        //else if(col.collider.tag == "Movable") {
+            //anim.SetBool("pushing", true);
+        //}
+    }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.tag == "Movable")
+        {
+            anim.SetBool("pushing", true);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Movable")
+        {
+            anim.SetBool("pushing", false);
         }
     }
 
@@ -289,10 +333,14 @@ public class PlayerController : MonoBehaviour
             touchingWallLeft = false;
             touchingWallRight = false;
         }
-        if (col.collider.tag == "Platform") {
+        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
+            col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             isTouchingPlat = false;
             firstJump = false;
-        }
+        } 
+        //else if(col.collider.tag == "Movable") {
+           // anim.SetBool("pushing", false);
+        //}
     }
 
     void resetRoom() {

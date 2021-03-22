@@ -15,6 +15,7 @@ public class Dialogue : MonoBehaviour
     void Start()
     {
         StartCoroutine(Type());
+        index = 0;
     }
 
     IEnumerator Type()
@@ -31,7 +32,7 @@ public class Dialogue : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
         {
             Progress();
         }
