@@ -9,6 +9,7 @@ TagManager:
   - Hazard
   - Border
   - MovablesParent
+  - Movable
   layers:
   - Default
   - TransparentFX
