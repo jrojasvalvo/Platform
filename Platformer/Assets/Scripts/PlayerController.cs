@@ -312,6 +312,9 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
+        if (col.tag == "Door1" && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))) {
+            SceneManager.LoadScene("SampleScene");
+        }
         if (col.tag == "Movable")
         {
             anim.SetBool("pushing", true);
