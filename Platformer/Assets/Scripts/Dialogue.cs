@@ -11,6 +11,7 @@ public class Dialogue : MonoBehaviour
     TextMeshProUGUI textDisplay;
     [TextArea(3, 10)]
     public string[] sentences;
+    public string[] characters; //who is saying what sentence
     private int index;
     public float typingSpeed;
     public bool sentenceDone;
@@ -21,12 +22,30 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        textDisplay = textDisplay1;
-        StartCoroutine(Type(textDisplay));
         index = 0;
-        
-        sethActive = true;
-        noahActive = false;
+        if (characters[index] == "Seth")
+        {
+            sethActive = true;
+            noahActive = false;
+        }
+        if (characters[index] == "Noah")
+        {
+            noahActive = true;
+            sethActive = false;
+        }
+        if (sethActive)
+        {
+            Seth.gameObject.SetActive(true);
+            textDisplay = textDisplay1;
+            Noah.gameObject.SetActive(false);
+        }
+        else if (noahActive)
+        {
+            Noah.gameObject.SetActive(true);
+            textDisplay = textDisplay2;
+            Seth.gameObject.SetActive(false);
+        }
+        StartCoroutine(Type(textDisplay));
     }
 
     IEnumerator Type(TextMeshProUGUI t)
@@ -43,6 +62,7 @@ public class Dialogue : MonoBehaviour
 
     void Update()
     {
+        /*
         if (sethActive) {
             Seth.gameObject.SetActive(true);
             textDisplay = textDisplay1;
@@ -52,6 +72,7 @@ public class Dialogue : MonoBehaviour
             textDisplay = textDisplay2;
             Seth.gameObject.SetActive(false);
         }
+        */
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
         {
             Progress();
@@ -68,6 +89,20 @@ public class Dialogue : MonoBehaviour
         else if (index < sentences.Length - 1)
         {
             index++;
+            if (characters[index] == "Seth")
+            {
+                textDisplay1.text = "";
+                Seth.gameObject.SetActive(true);
+                textDisplay = textDisplay1;
+                Noah.gameObject.SetActive(false);
+            }
+            if (characters[index] == "Noah")
+            {
+                textDisplay2.text = "";
+                Noah.gameObject.SetActive(true);
+                textDisplay = textDisplay2;
+                Seth.gameObject.SetActive(false);
+            }
             textDisplay.text = "";
             StartCoroutine(Type(textDisplay));
         }

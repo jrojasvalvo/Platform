@@ -3617,7 +3617,7 @@ PrefabInstance:
     - target: {fileID: 2979623123714975813, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
       propertyPath: sentences.Array.data[1]
-      value: peepy is a super criminal. he will steal your kelp everytime.
+      value: another one
       objectReference: {fileID: 0}
     - target: {fileID: 5946428043222666562, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
