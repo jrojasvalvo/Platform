@@ -348,9 +348,9 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
-    void resetRoom() {
-        //float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
-        //transform.position = new Vector3(resetX, -3f, 0f);
+    public void resetRoom() {
+        float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
+        transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
         moveVelocity = 0f;
         for(int i = 1; i < movables.Length; i++) {

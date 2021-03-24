@@ -68,7 +68,11 @@ public class moveCamera : MonoBehaviour
             }
         }
 
-        if(player[0].transform.position.y > transform.position.y + (roomHeight / 2f) && canScroll) {
+        if(player[0].transform.position.y < -5f) {
+            player[0].GetComponent<PlayerController>().resetRoom();
+        }
+
+        /*if(player[0].transform.position.y > transform.position.y + (roomHeight / 2f) && canScroll) {
             canScroll = false;
             y += roomHeight;
             scrollingUp = true;
@@ -98,6 +102,6 @@ public class moveCamera : MonoBehaviour
                 scrollingRight = false;
                 canScroll = true;
             }
-        }
+        }*/
     }
 }
