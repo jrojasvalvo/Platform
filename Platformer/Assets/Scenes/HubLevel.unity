@@ -690,6 +690,7 @@ MonoBehaviour:
   cameraScrollSpeed: 0.2
   room: 0
   roomWidth: 0
+  roomHeight: 0
 --- !u!1001 &815795045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -704,8 +705,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
+      propertyPath: characters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
+        type: 3}
       propertyPath: sentences.Array.data[0]
       value: The door is locked.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
+        type: 3}
+      propertyPath: characters.Array.data[0]
+      value: Seth
       objectReference: {fileID: 0}
     - target: {fileID: 2776965948728921714, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
@@ -1536,6 +1547,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879806079403831851, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 1879806079403831851, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
         type: 3}
