@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     float jumpStartTime;
     float yvel = 0f;
 
+    bool touchingDoor = false;
+
     //Wall Jump
     bool touchingWallLeft;
     bool touchingWallRight;
@@ -150,7 +152,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Jump
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
             {
                 if (firstJump)
                 {
@@ -273,6 +275,9 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.collider.tag == "Door") {
+            touchingDoor = true;
+        }
         if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
             col.transform.position.y <= transform.position.y - (playerHeight / 2))
         {
@@ -312,9 +317,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "Door1" && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))) {
-            SceneManager.LoadScene("SampleScene");
-        }
         if (col.tag == "Movable")
         {
             anim.SetBool("pushing", true);

@@ -10,7 +10,7 @@ TagManager:
   - Border
   - MovablesParent
   - Movable
-  - Door1
+  - Door
   layers:
   - Default
   - TransparentFX
