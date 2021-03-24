@@ -27,7 +27,7 @@ public class moveCamera : MonoBehaviour
         x = transform.position.x;
         y = transform.position.y;
         canScroll = true;
-        room = 0;
+        room = -1;
         cam = gameObject.GetComponent<Camera>();
         roomWidth = cam.aspect * cam.orthographicSize * 2;
         roomHeight = roomWidth / cam.aspect;
