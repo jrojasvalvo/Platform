@@ -41,11 +41,17 @@ public class moveCamera : MonoBehaviour
             x += roomWidth;
             scrollingRight = true;
             room += 1;
+            //if scrolling freeze world movement
+            Time.timeScale = 0;
+            player[0].GetComponent<PlayerController>().canMove = false;
         } else if(player[0].transform.position.x < transform.position.x - (roomWidth / 2f) && canScroll) {
             canScroll = false;
             x -= roomWidth;
             scrollingLeft = true;
             room -= 1;
+            //if scrolling freeze world movement
+            Time.timeScale = 0;
+            player[0].GetComponent<PlayerController>().canMove = false;
         }
 
         if(scrollingLeft) {
@@ -55,6 +61,9 @@ public class moveCamera : MonoBehaviour
                 transform.position = new Vector3(x, y, -10f);
                 scrollingLeft = false;
                 canScroll = true;
+                //resume time when finish scrolling
+                Time.timeScale = 1;
+                player[0].GetComponent<PlayerController>().canMove = true;
             }
         }
 
@@ -65,6 +74,9 @@ public class moveCamera : MonoBehaviour
                 transform.position = new Vector3(x, y, -10f);
                 scrollingRight = false;
                 canScroll = true;
+                //resume time when finish scrolling
+                Time.timeScale = 1;
+                player[0].GetComponent<PlayerController>().canMove = true;
             }
         }
 

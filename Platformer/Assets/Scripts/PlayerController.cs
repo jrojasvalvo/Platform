@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public double playerHeight;
 
     public float deceleration;
+    public float groundDeceleration;
+    public float airDeceleration;
     public float acceleration;
 
     //Movement
@@ -73,6 +76,15 @@ public class PlayerController : MonoBehaviour
     public bool canWallJump;
 
     public BoxCollider2D pushCollider;
+    public BoxCollider2D hitBox;
+    bool movingLeft;
+    bool movingRight;
+    bool jumpPressed;
+    bool dashPressed;
+    public float normalGravity;
+    public float fastFallGravity;
+    private List<float> inputBuffer = new List<float>();
+
 
     void Start()
     {
@@ -95,146 +107,59 @@ public class PlayerController : MonoBehaviour
         music.Play();
     }
 
-    void decelerate() {
-        if(moveVelocity <= 0.1f && moveVelocity >= -0.1f) {
-            moveVelocity = 0;
-        } else {
-            moveVelocity -= moveVelocity / deceleration;
-        }
-    }
-
-    void accelerate(float s) {
-        if(s < 0) {
-            if(moveVelocity <= s + 0.1f) {
-                moveVelocity = s;
-            } else {
-                moveVelocity -= acceleration;
-            }
-        } else {
-            if(moveVelocity >= s - 0.1f) {
-                moveVelocity = s;
-            } else {
-                moveVelocity += acceleration;
-            }
-        }
-    }
-
     void Update()
     {   
-        if(transform.position.y <= -5f) {
-            StartCoroutine(MusicCoroutine());
-            deathSound.Play();
-            resetRoom();
-        }
         if (canMove)
         {
-            if(isTouchingPlat) {
-                decelerate();
-            }
-            yvel = rb.velocity.y;
+            //Movement Stuff
 
-            //Left Right Movement
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                accelerate(-speed);
-                if (facingRight)
-                {
-                    reverseImage();
-                }
-            }
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                accelerate(speed);
-                if (!facingRight)
-                {
-                    reverseImage();
-                }
-            }
+            //Get Inputs
+            movingLeft = false;
+            movingRight = false;
+            jumpPressed = false;
+            dashPressed = false;
+            // To stop player from entering idle animation when switching directions
+            anim.SetBool("pressingLeftorRight", false);
 
-            //Jump
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
-            {
-                if (firstJump)
-                {
-                    jump1Sound.Play();
-                    jumpStartTime = Time.time;
-                    yvel = firstJumpHeight;
-                    firstJump = false;
-                }
-                else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding && canDoubleJump)
-                {
-                    jump2Sound.Play();
-                    yvel =  secondJumpHeight;
-                    secondJump = false;
-                }
-
-                if (wallSliding && touchingWallLeft && canWallJump) {
-                    jump2Sound.Play();
-                    moveVelocity = xWallForce;
-                    yvel = yWallForce;
-                    wallSliding = false;
-                    touchingWallLeft = false;
-                } else if (wallSliding && touchingWallRight && canWallJump) {
-                    jump2Sound.Play();
-                    moveVelocity = -xWallForce;
-                    yvel = yWallForce;
-                    wallSliding = false;
-                    touchingWallRight = false;
-                }
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
+                movingLeft = true;
+                movingRight = false;
+                anim.SetBool("pressingLeftorRight", true);
+            } else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
+                movingLeft = false;
+                movingRight = true;
+                anim.SetBool("pressingLeftorRight", true);
+            }
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor) {
+                jumpPressed = true;
+                inputBuffer.Add(Time.time);
+                rb.gravityScale = normalGravity;
+            }
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor) {
+                rb.gravityScale = fastFallGravity;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash) {
+                dashPressed = true;
             }
 
-            //Dash
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash)
-            {
-                dashSound.Play();
-                dash = true;
-                dashTimer = 0.0f;
-                dashCooldownTimer = dashCooldown;
-                dashReset = false;
-            }
-
-            if(Input.GetKeyDown(KeyCode.R)) {
-                resetRoom();
+            SideMovement();
+            tryBufferedJump();
+            Jump();
+            Dash();
+            if (canWallJump) {
+                WallJump();
             }
             
-            //Update dash timers. Cannot dash infinitely.
-            if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
-            dashTimer += Time.deltaTime;
-
-            //Do not fall during dash, end dash if past timer
-            if (dash)
-            {
-                if(facingRight) {
-                    moveVelocity = dashSpeed;
-                } else {
-                    moveVelocity = -dashSpeed;
-                }
-                //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
-                yvel = 0;
-                if (dashTimer > dashDuration)
-                {
-                    dash = false;
-                    moveVelocity /= dashSpeed;
-                }
-            }
-
-            //Wall Jump
-            if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
-                wallSliding = true;
-            } else {
-                wallSliding = false;
-            }
-
-            if (wallSliding) {
-                yvel = Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue);
+            if(Input.GetKeyDown(KeyCode.R)) {
+                resetRoom();
             }
 
             rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-            if(rb.velocity.y >= -0.1f && rb.velocity.y <= 0.1f) {
+            if(rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f) {
                 anim.SetBool("movingUp", false);
                 anim.SetBool("movingDown", false);
-            } else if (rb.velocity.y < -0.1f) {
+            } else if (rb.velocity.y < -0.1f && !firstJump) {
                 anim.SetBool("movingDown", true);
                 anim.SetBool("movingUp", false);
             } else if (rb.velocity.y > 0.1f) {
@@ -245,29 +170,205 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("pushing", false);
             }
         }
+
+        if(transform.position.y <= -5f) {
+            StartCoroutine(MusicCoroutine());
+            deathSound.Play();
+            resetRoom();
+        }
     }
 
     void FixedUpdate()
     {
-        anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-        if(rb.velocity.y == 0.0f) {
-            anim.SetBool("movingUp", false);
-            anim.SetBool("movingDown", false);
-        } else if (rb.velocity.y < 0.0f) {
-            anim.SetBool("movingDown", true);
-            anim.SetBool("movingUp", false);
+        //If we need to we can put the movement stuff here but it works in update for now
+    }
+
+    void decelerate(bool onGround) {
+        if (onGround) {
+            deceleration = groundDeceleration;
         } else {
-            anim.SetBool("movingUp", true);
-            anim.SetBool("movingDown", false);
+            deceleration = airDeceleration;
+        }
+
+        if(moveVelocity <= 0.15f && moveVelocity >= -0.15f) {
+            moveVelocity = 0;
+        } else {
+            // moveVelocity -= moveVelocity / deceleration;
+            // moveVelocity -= deceleration * Time.fixedDeltaTime;
+
+            if (moveVelocity <= 0.5f && moveVelocity >= -0.5f) {
+                //Sometimes deceleration is too much to stay within stopping threshold and player keeps sliding
+                deceleration /= 2f;
+            }
+
+            if(moveVelocity < 0) {
+                moveVelocity += deceleration * Time.fixedDeltaTime;
+            } else {
+                moveVelocity -= deceleration * Time.fixedDeltaTime;
+            }
+        }
+    }
+
+    void accelerate(float s) {
+        float a = acceleration;
+        if ((moveVelocity < 0 && movingRight) || (moveVelocity > 0 && movingLeft)) {
+                //So the player doesn't moonwalk as much when switching directions
+                a *= 2;
+        }
+        if(s < 0) {
+            if(moveVelocity <= s + 0.15f) {
+                moveVelocity = s;
+            } else {
+                moveVelocity -= a * Time.fixedDeltaTime;
+            }
+        } else {
+            if(moveVelocity >= s - 0.15f) {
+                moveVelocity = s;
+            } else {
+                moveVelocity += a * Time.fixedDeltaTime;
+            }
+        }
+    }
+
+    void SideMovement() {
+        
+        yvel = rb.velocity.y;
+
+        //Left Right Movement
+        if (movingLeft)
+        {
+            accelerate(-speed);
+            if (facingRight)
+            {
+                reverseImage();
+            }
+        }
+        else if (movingRight)
+        {
+            accelerate(speed);
+            if (!facingRight)
+            {
+                reverseImage();
+            }
+        } else {
+            if(isTouchingPlat) {
+                decelerate(true);
+            } else {
+                decelerate(false);
+            }
+        }
+    }
+
+    // Enables player to jump if they presed the key slightly early
+    // Keeps game from 'eating' player input
+    private void tryBufferedJump() {
+        if (inputBuffer.Count > 0 && firstJump) {
+            foreach (float t in inputBuffer.ToArray()) {
+                if (Time.time - t < 0.07f) {
+                    jumpPressed = true;
+                    inputBuffer.Clear();
+                    break;
+                }
+            }
+        }
+    }
+
+    //Player can jump slightly after leaving platform so game doesn't feel like its eating inputs
+    IEnumerator coyoteTime()
+    {
+        yield return new WaitForSeconds((float)0.05);
+        firstJump = false;
+    }
+
+    void Jump() {
+        if (jumpPressed)
+        {
+            if (firstJump)
+            {
+                jump1Sound.Play();
+                jumpStartTime = Time.time;
+                yvel = firstJumpHeight;
+                firstJump = false;
+            }
+            else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding && canDoubleJump)
+            {
+                jump2Sound.Play();
+                yvel =  secondJumpHeight;
+                secondJump = false;
+            }
+
+            if (wallSliding && touchingWallLeft && canWallJump) {
+                jump2Sound.Play();
+                moveVelocity = xWallForce;
+                yvel = yWallForce;
+                wallSliding = false;
+                touchingWallLeft = false;
+            } else if (wallSliding && touchingWallRight && canWallJump) {
+                jump2Sound.Play();
+                moveVelocity = -xWallForce;
+                yvel = yWallForce;
+                wallSliding = false;
+                touchingWallRight = false;
+            }
+        }
+    }
+
+    void Dash(){
+        //Dash
+        if (dashPressed)
+        {
+            dashSound.Play();
+            dash = true;
+            dashTimer = 0.0f;
+            dashCooldownTimer = dashCooldown;
+            dashReset = false;
+        }
+
+        //Update dash timers. Cannot dash infinitely.
+        if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
+        dashTimer += Time.deltaTime;
+
+        
+        //Do not fall during dash, end dash if past timer
+        if (dash)
+        {
+            if(facingRight) {
+                moveVelocity = dashSpeed;
+            } else {
+                moveVelocity = -dashSpeed;
+            }
+            //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
+            yvel = 0;
+            if (dashTimer > dashDuration)
+            {
+                dash = false;
+                moveVelocity /= dashSpeed;
+            }
+        }
+    }
+
+    void WallJump() {
+        if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
+            wallSliding = true;
+        } else {
+            wallSliding = false;
+        }
+
+        if (wallSliding) {
+            yvel = Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue);
         }
     }
 
     void reverseImage()
-    {
+    {   
         facingRight = !facingRight;
+        
         Vector2 scale = rb.transform.localScale;
         scale.x *= -1;
         rb.transform.localScale = scale;
+        float offset = hitBox.offset.x * scale.x;
+        rb.transform.position = new Vector3(rb.transform.position.x - offset, 
+                                                rb.transform.position.y, rb.transform.position.z);
         //do not flip camera
         Vector2 cscale = cam.transform.localScale;
         cscale.x *= -1;
@@ -279,7 +380,7 @@ public class PlayerController : MonoBehaviour
             touchingDoor = true;
         }
         if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
-            col.transform.position.y <= transform.position.y - (playerHeight / 2))
+            col.transform.position.y <= transform.position.y - (playerHeight / 2.1f) )
         {
             firstJump = true;
             secondJump = true;
@@ -289,7 +390,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col) 
     {
-        if (col.collider.tag == "Wall" && canWallJump) 
+        if (col.collider.tag == "Wall") 
         {
             dashReset = true;
             if(col.transform.position.x < transform.position.x) {
@@ -309,25 +410,6 @@ public class PlayerController : MonoBehaviour
             dashReset = true;
             isTouchingPlat = true;
             firstJump = true;
-        } 
-        //else if(col.collider.tag == "Movable") {
-            //anim.SetBool("pushing", true);
-        //}
-    }
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.tag == "Movable")
-        {
-            anim.SetBool("pushing", true);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.tag == "Movable")
-        {
-            anim.SetBool("pushing", false);
         }
     }
 
@@ -341,12 +423,34 @@ public class PlayerController : MonoBehaviour
         if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
             col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
             isTouchingPlat = false;
-            firstJump = false;
+            StartCoroutine(coyoteTime());
         } 
         //else if(col.collider.tag == "Movable") {
            // anim.SetBool("pushing", false);
         //}
     }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        // only push if walking towards object
+        if (col.tag == "Movable")
+        {
+            if (movingLeft || movingRight)
+            {
+                anim.SetBool("pushing", true);
+            } else {
+                anim.SetBool("pushing", false);
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Movable")
+        {
+            anim.SetBool("pushing", false);
+        }
+    }    
 
     public void resetRoom() {
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
