@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class Dialogue : MonoBehaviour
 {
@@ -19,6 +21,10 @@ public class Dialogue : MonoBehaviour
     public bool noahActive;
     public Image Noah;
     public Image Seth;
+    public TimelineAsset timeline;
+    public PlayableDirector playableDirector;
+    public GameObject dialogbox;
+    public GameObject noahsprite;
 
     void Start()
     {
@@ -109,6 +115,10 @@ public class Dialogue : MonoBehaviour
         else
         {
             textDisplay.text = "";
+            playableDirector.Stop();
+            noahsprite.SetActive(false);
+            dialogbox.SetActive(false);
+
             //add some way to deactivate all dialogue box elements 
         }
     }
