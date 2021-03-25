@@ -1727,7 +1727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!320 &644416765
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -1757,6 +1757,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -2011062001868479853, guid: 929ae2e3d8cd49f4d817a387f024285d, type: 2}
     value: {fileID: 644416764}
+  - key: {fileID: 5347336230020402323, guid: 929ae2e3d8cd49f4d817a387f024285d, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &644416766
@@ -6088,6 +6090,16 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 519420028}
+    - target: {fileID: 1879806079403831849, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: noah
+      value: 
+      objectReference: {fileID: 1540143072}
+    - target: {fileID: 1879806079403831849, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: cutScene
+      value: 
+      objectReference: {fileID: 644416764}
     - target: {fileID: 1879806079403831851, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
         type: 3}
       propertyPath: m_RootOrder

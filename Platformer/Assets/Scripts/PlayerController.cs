@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
     public float fastFallGravity;
     private List<float> inputBuffer = new List<float>();
 
+    public GameObject noah;
 
     void Start()
     {
@@ -108,7 +109,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
         if (canMove)
         {
             //Movement Stuff
@@ -176,6 +177,15 @@ public class PlayerController : MonoBehaviour
             deathSound.Play();
             resetRoom();
         }
+
+        if (noah.activeSelf == true)
+        {
+            music.volume -= 0.5f;
+        } else if (noah.activeSelf == false && deathSound.isPlaying == false)
+        {
+            music.volume = 0.5f;
+        }
+
     }
 
     void FixedUpdate()

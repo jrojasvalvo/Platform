@@ -26,6 +26,8 @@ public class Dialogue : MonoBehaviour
     public GameObject dialogbox;
     public GameObject noahsprite;
 
+    AudioSource textSound;
+
     void Start()
     {
         index = 0;
@@ -52,6 +54,8 @@ public class Dialogue : MonoBehaviour
             Seth.gameObject.SetActive(false);
         }
         StartCoroutine(Type(textDisplay));
+
+        textSound = GetComponent<AudioSource>();
     }
 
     IEnumerator Type(TextMeshProUGUI t)
@@ -82,6 +86,14 @@ public class Dialogue : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
         {
             Progress();
+        }
+
+        if (sentenceDone == false)
+        {
+            textSound.Play();
+        } else
+        {
+            textSound.Stop();
         }
     }
     public void Progress()
