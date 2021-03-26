@@ -25,11 +25,13 @@ public class Dialogue : MonoBehaviour
     public PlayableDirector playableDirector;
     public GameObject dialogbox;
     public GameObject noahsprite;
+    public bool hasCutscene;
 
     AudioSource textSound;
 
-    void Start()
+    void OnEnable()
     {
+
         index = 0;
         if (characters[index] == "Seth")
         {
@@ -53,9 +55,9 @@ public class Dialogue : MonoBehaviour
             textDisplay = textDisplay2;
             Seth.gameObject.SetActive(false);
         }
-        StartCoroutine(Type(textDisplay));
-
         textSound = GetComponent<AudioSource>();
+        textDisplay.text = "";
+        StartCoroutine(Type(textDisplay));
     }
 
     IEnumerator Type(TextMeshProUGUI t)
@@ -72,23 +74,12 @@ public class Dialogue : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (sethActive) {
-            Seth.gameObject.SetActive(true);
-            textDisplay = textDisplay1;
-            Noah.gameObject.SetActive(false);
-        } else if(noahActive) {
-            Noah.gameObject.SetActive(true);
-            textDisplay = textDisplay2;
-            Seth.gameObject.SetActive(false);
-        }
-        */
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
         {
             Progress();
         }
 
-        if (sentenceDone == false)
+        if (!sentenceDone)
         {
             textSound.Play();
         } else
@@ -127,11 +118,12 @@ public class Dialogue : MonoBehaviour
         else
         {
             textDisplay.text = "";
-            playableDirector.Stop();
-            noahsprite.SetActive(false);
+            if (hasCutscene)
+            {
+                playableDirector.Stop();
+                noahsprite.SetActive(false);
+            }
             dialogbox.SetActive(false);
-
-            //add some way to deactivate all dialogue box elements 
         }
     }
 }
