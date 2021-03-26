@@ -830,6 +830,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1628044171}
+    - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
+        type: 3}
       propertyPath: timeline
       value: 
       objectReference: {fileID: 11400000, guid: 6cdc71a1c15d69f4ea9f0a4b0c191cbc,
@@ -887,7 +892,7 @@ PrefabInstance:
     - target: {fileID: 2776965948960651017, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2776965948960651021, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
@@ -1207,6 +1212,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7114685824046018119, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 540461726}
+    - target: {fileID: 7114685824046018119, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1628044172}
+    - target: {fileID: 7114685824046018119, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: noah
+      value: 
+      objectReference: {fileID: 571725837}
+    - target: {fileID: 7114685824046018119, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: hitBox
+      value: 
+      objectReference: {fileID: 1628044179}
     - target: {fileID: 7114685824046018121, guid: 0a0265a5350022a4390cec3e92fcc5c8,
         type: 3}
       propertyPath: m_Name
@@ -1486,6 +1511,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 875f0bda2da683f4aaf1602b2cc03a21, type: 3}
+--- !u!1 &1628044171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7114685824046018121, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1293018574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1628044172 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6202738070305621183, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1293018574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1628044179 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7114685824046018116, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1293018574}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1635826755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1841227187396814840, guid: 875f0bda2da683f4aaf1602b2cc03a21,
