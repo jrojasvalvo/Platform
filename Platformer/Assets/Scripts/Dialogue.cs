@@ -26,12 +26,13 @@ public class Dialogue : MonoBehaviour
     public GameObject dialogbox;
     public GameObject noahsprite;
     public bool hasCutscene;
+    public GameObject player;
 
     AudioSource textSound;
 
     void OnEnable()
     {
-
+        player.GetComponent<PlayerController>().enabled = false;
         index = 0;
         if (characters[index] == "Seth")
         {
@@ -122,7 +123,10 @@ public class Dialogue : MonoBehaviour
             {
                 playableDirector.Stop();
                 noahsprite.SetActive(false);
+                player.GetComponent<PlayerController>().facingRight = true;
             }
+            player.GetComponent<PlayerController>().enabled = true;
+            
             dialogbox.SetActive(false);
         }
     }
