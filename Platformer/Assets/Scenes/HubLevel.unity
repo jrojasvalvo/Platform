@@ -1729,6 +1729,21 @@ PrefabInstance:
       propertyPath: noah
       value: 
       objectReference: {fileID: 1987253889}
+    - target: {fileID: 1879806079403831849, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: acceleration
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879806079403831849, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: airDeceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879806079403831849, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
+        type: 3}
+      propertyPath: groundDeceleration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1879806079403831851, guid: 0389e21ddb3f8c8429bbb4f525206ccd,
         type: 3}
       propertyPath: m_RootOrder
