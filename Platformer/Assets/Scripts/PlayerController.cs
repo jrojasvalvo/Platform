@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     AudioSource dashSound;
     AudioSource deathSound;
     AudioSource music;
+
 
     private Rigidbody2D rb;
     public Animator anim;
@@ -122,24 +124,30 @@ public class PlayerController : MonoBehaviour
             // To stop player from entering idle animation when switching directions
             anim.SetBool("pressingLeftorRight", false);
 
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
                 movingLeft = true;
                 movingRight = false;
                 anim.SetBool("pressingLeftorRight", true);
-            } else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
                 movingLeft = false;
                 movingRight = true;
                 anim.SetBool("pressingLeftorRight", true);
             }
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor) {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
+            {
                 jumpPressed = true;
                 inputBuffer.Add(Time.time);
                 rb.gravityScale = normalGravity;
             }
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor) {
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
+            {
                 rb.gravityScale = fastFallGravity;
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash) {
+            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash)
+            {
                 dashPressed = true;
             }
 
@@ -147,45 +155,57 @@ public class PlayerController : MonoBehaviour
             tryBufferedJump();
             Jump();
             Dash();
-            if (canWallJump) {
+            if (canWallJump)
+            {
                 WallJump();
             }
-            
-            if(Input.GetKeyDown(KeyCode.R)) {
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
                 resetRoom();
             }
 
             rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-            if(rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f) {
+            if (rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f)
+            {
                 anim.SetBool("movingUp", false);
                 anim.SetBool("movingDown", false);
-            } else if (rb.velocity.y < -0.1f && !firstJump) {
+            }
+            else if (rb.velocity.y < -0.1f && !firstJump)
+            {
                 anim.SetBool("movingDown", true);
                 anim.SetBool("movingUp", false);
-            } else if (rb.velocity.y > 0.1f) {
+            }
+            else if (rb.velocity.y > 0.1f)
+            {
                 anim.SetBool("movingUp", true);
                 anim.SetBool("movingDown", false);
             }
-            if(rb.velocity.x == 0.0f) {
+            if (rb.velocity.x == 0.0f)
+            {
                 anim.SetBool("pushing", false);
             }
         }
 
-        if(transform.position.y <= -5f) {
+        if (transform.position.y <= -5f)
+        {
+            music.volume = 0.1f;
             StartCoroutine(MusicCoroutine());
-            deathSound.Play();
             resetRoom();
         }
 
         if (noah.activeSelf == true)
         {
             music.volume -= 0.5f;
-        } else if (noah.activeSelf == false && deathSound.isPlaying == false)
-        {
-            music.volume = 0.5f;
         }
-
+        else if (noah.activeSelf == false && deathSound.isPlaying == false)
+        {
+            if (music.volume < 0.5f)
+            {
+                music.volume += 0.005f;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -420,6 +440,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void resetRoom() {
+        deathSound.Play();
+        StartCoroutine(MusicCoroutine());
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
@@ -432,21 +454,25 @@ public class PlayerController : MonoBehaviour
     IEnumerator MusicCoroutine()
     {
         music.volume = 0.1f;
-        yield return new WaitForSeconds(1.8f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        music.volume += 0.05f;
+        if (music.volume < 0.5f)
+        {
+            yield return new WaitForSeconds(1.8f);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+            music.volume += 0.05f;
+            yield return new WaitForSeconds(1);
+        }
     }
 }
