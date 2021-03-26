@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     //Movement
     public float speed;
     float moveVelocity;
-    private bool facingRight;
+    public bool facingRight;
 
     //Dash
     public bool dash = false;

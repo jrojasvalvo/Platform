@@ -707,7 +707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &571725838
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -789,7 +789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &785268689
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -844,6 +844,11 @@ PrefabInstance:
       propertyPath: noahsprite
       value: 
       objectReference: {fileID: 571725837}
+    - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
+        type: 3}
+      propertyPath: sethActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1139547736161486347, guid: 945ae88ff05740a46aae3020a768244c,
         type: 3}
       propertyPath: playableDirector
@@ -1008,6 +1013,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559000789101870627, guid: 945ae88ff05740a46aae3020a768244c,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 0.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 945ae88ff05740a46aae3020a768244c, type: 3}
