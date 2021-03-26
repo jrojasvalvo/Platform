@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     AudioSource music;
 
     private Rigidbody2D rb;
-    private Animator anim;
+    public Animator anim;
     public GameObject cam;
 
-    bool isTouchingPlat;
+    public bool isTouchingPlat;
 
     public double playerHeight;
 
@@ -45,8 +45,8 @@ public class PlayerController : MonoBehaviour
     public float cooldown;
     public float firstJumpHeight;
     public float secondJumpHeight;
-    bool firstJump;
-    bool secondJump;
+    public bool firstJump;
+    public bool secondJump;
     float jumpStartTime;
     float yvel = 0f;
 
@@ -69,16 +69,16 @@ public class PlayerController : MonoBehaviour
 
     public bool dead;
 
-    bool dashReset;
+    public bool dashReset;
     
     public bool canDash;
     public bool canDoubleJump;
     public bool canWallJump;
 
-    public BoxCollider2D pushCollider;
     public BoxCollider2D hitBox;
-    bool movingLeft;
-    bool movingRight;
+
+    public bool movingLeft;
+    public bool movingRight;
     bool jumpPressed;
     bool dashPressed;
     public float normalGravity;
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Player can jump slightly after leaving platform so game doesn't feel like its eating inputs
-    IEnumerator coyoteTime()
+    public IEnumerator coyoteTime()
     {
         yield return new WaitForSeconds((float)0.05);
         firstJump = false;
@@ -389,13 +389,6 @@ public class PlayerController : MonoBehaviour
         if (col.collider.tag == "Door") {
             touchingDoor = true;
         }
-        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
-            col.transform.position.y <= transform.position.y - (playerHeight / 2.1f) )
-        {
-            firstJump = true;
-            secondJump = true;
-            isTouchingPlat = true;
-        }
     }
 
     void OnCollisionStay2D(Collision2D col) 
@@ -415,12 +408,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
-            col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
-            dashReset = true;
-            isTouchingPlat = true;
-            firstJump = true;
-        }
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -430,37 +417,7 @@ public class PlayerController : MonoBehaviour
             touchingWallLeft = false;
             touchingWallRight = false;
         }
-        if ((col.collider.tag == "Platform" || col.collider.tag == "Movable") && 
-            col.transform.position.y <= transform.position.y - (playerHeight / 2)) {
-            isTouchingPlat = false;
-            StartCoroutine(coyoteTime());
-        } 
-        //else if(col.collider.tag == "Movable") {
-           // anim.SetBool("pushing", false);
-        //}
     }
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        // only push if walking towards object
-        if (col.tag == "Movable")
-        {
-            if (movingLeft || movingRight)
-            {
-                anim.SetBool("pushing", true);
-            } else {
-                anim.SetBool("pushing", false);
-            }
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.tag == "Movable")
-        {
-            anim.SetBool("pushing", false);
-        }
-    }    
 
     public void resetRoom() {
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
