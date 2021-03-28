@@ -1237,6 +1237,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8876013570999938449, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 166246b6ebf0e65448e4d526979923e8, type: 3}
+    - target: {fileID: 8876013570999938449, guid: 0a0265a5350022a4390cec3e92fcc5c8,
+        type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a0265a5350022a4390cec3e92fcc5c8, type: 3}
 --- !u!1 &1295140570

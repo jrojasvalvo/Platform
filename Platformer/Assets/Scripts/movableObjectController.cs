@@ -18,7 +18,9 @@ public class movableObjectController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(transform.position.y < -5f) {
+            reset();
+        }
     }
 
     public void reset() {
