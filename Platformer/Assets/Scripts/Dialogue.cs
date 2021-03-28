@@ -22,16 +22,18 @@ public class Dialogue : MonoBehaviour
     public Image Noah;
     public Image Seth;
     public TimelineAsset timeline;
-    public PlayableDirector playableDirector;
+    //public PlayableDirector playableDirector;
     public GameObject dialogbox;
     public GameObject noahsprite;
     public bool hasCutscene;
     public GameObject player;
 
+    public GameObject cutsceneManager;
     AudioSource textSound;
 
     void OnEnable()
     {
+        cutsceneManager = GameObject.Find("CutsceneManager"); 
         player.GetComponent<PlayerController>().enabled = false;
         index = 0;
         if (characters[index] == "Seth")
@@ -121,9 +123,10 @@ public class Dialogue : MonoBehaviour
             textDisplay.text = "";
             if (hasCutscene)
             {
-                playableDirector.Stop();
-                noahsprite.SetActive(false);
+                //playableDirector.Stop();
+                //noahsprite.SetActive(false);
                 player.GetComponent<PlayerController>().facingRight = true;
+                //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
             }
             player.GetComponent<PlayerController>().enabled = true;
             

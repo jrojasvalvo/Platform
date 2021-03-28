@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     AudioSource jump2Sound;
     AudioSource dashSound;
     AudioSource deathSound;
-    AudioSource music;
+    public AudioSource music;
 
     private Rigidbody2D rb;
     public Animator anim;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     public float fastFallGravity;
     private List<float> inputBuffer = new List<float>();
 
-    public GameObject noah;
+    public GameObject cutsceneManager;
 
     void Start()
     {
@@ -104,8 +104,8 @@ public class PlayerController : MonoBehaviour
         music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
-
-        music.Play();
+        cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+        //music.Play();
     }
 
     void Update()
@@ -178,6 +178,7 @@ public class PlayerController : MonoBehaviour
             resetRoom();
         }
 
+        /* old code that deactivates music during cutscene
         if (noah.activeSelf == true)
         {
             music.volume -= 0.5f;
@@ -185,6 +186,7 @@ public class PlayerController : MonoBehaviour
         {
             music.volume = 0.5f;
         }
+        */
 
     }
 
