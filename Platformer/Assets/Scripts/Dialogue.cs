@@ -129,7 +129,6 @@ public class Dialogue : MonoBehaviour
                 //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
             }
             player.GetComponent<PlayerController>().enabled = true;
-            
             dialogbox.SetActive(false);
         }
     }

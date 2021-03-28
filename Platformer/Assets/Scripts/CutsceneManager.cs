@@ -8,7 +8,7 @@ public class CutsceneManager : MonoBehaviour
     private int index;
     public GameObject[] cutscenes;
     public GameObject player;
-    private cutsceneActive;
+    private bool cutsceneActive;
     public GameObject dialogbox;
 
     void Start()
