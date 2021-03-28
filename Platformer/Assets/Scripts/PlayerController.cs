@@ -96,8 +96,6 @@ public class PlayerController : MonoBehaviour
         facingRight = true;
         dead = false;
         camera_init = cam.transform.position;
-        initial_x = transform.position.x;
-        initial_y = transform.position.y;
         sounds = GetComponents<AudioSource>();
         jump1Sound = sounds[0];
         jump2Sound = sounds[1];
@@ -347,6 +345,7 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (dashPressed)
         {
+            anim.SetBool("dash", true);
             dashSound.Play();
             dash = true;
             dashTimer = 0.0f;
@@ -372,6 +371,7 @@ public class PlayerController : MonoBehaviour
             if (dashTimer > dashDuration)
             {
                 dash = false;
+                anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
             }
         }
@@ -442,7 +442,7 @@ public class PlayerController : MonoBehaviour
     public void resetRoom() {
         deathSound.Play();
         StartCoroutine(MusicCoroutine());
-        float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth - 7.5f;
+        float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
         moveVelocity = 0f;
