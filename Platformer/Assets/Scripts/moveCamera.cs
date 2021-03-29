@@ -84,16 +84,18 @@ public class moveCamera : MonoBehaviour
             player[0].GetComponent<PlayerController>().resetRoom();
         }
 
-        /*if(player[0].transform.position.y > transform.position.y + (roomHeight / 2f) && canScroll) {
+        if(player[0].transform.position.y > transform.position.y + (roomHeight / 2f + 1f) && canScroll) {
             canScroll = false;
             y += roomHeight;
             scrollingUp = true;
-            room += 1;
-        } else if(player[0].transform.position.y < transform.position.y - (roomHeight / 2f) && canScroll) {
+            Time.timeScale = 0;
+            player[0].GetComponent<PlayerController>().canMove = false;
+        } else if(player[0].transform.position.y < transform.position.y - (roomHeight / 2f + 1f) && canScroll) {
             canScroll = false;
             y -= roomHeight;
             scrollingDown = true;
-            room -= 1;
+            Time.timeScale = 0;
+            player[0].GetComponent<PlayerController>().canMove = false;
         }
 
         if(scrollingDown) {
@@ -101,8 +103,10 @@ public class moveCamera : MonoBehaviour
             transform.position = new Vector3(x, currY - cameraScrollSpeed, -10f);
             if(transform.position.y <= y) {
                 transform.position = new Vector3(x, y, -10f);
-                scrollingLeft = false;
+                scrollingDown = false;
                 canScroll = true;
+                Time.timeScale = 1;
+                player[0].GetComponent<PlayerController>().canMove = true;
             }
         }
 
@@ -111,9 +115,11 @@ public class moveCamera : MonoBehaviour
             transform.position = new Vector3(x, currY + cameraScrollSpeed, -10f);
             if(transform.position.y >= y) {
                 transform.position = new Vector3(x, y, -10f);
-                scrollingRight = false;
+                scrollingUp = false;
                 canScroll = true;
+                Time.timeScale = 1;
+                player[0].GetComponent<PlayerController>().canMove = true;
             }
-        }*/
+        }
     }
 }

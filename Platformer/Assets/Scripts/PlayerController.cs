@@ -170,12 +170,12 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("movingUp", false);
                 anim.SetBool("movingDown", false);
             }
-            else if (rb.velocity.y < -0.1f && !firstJump)
+            else if (rb.velocity.y < -1f && !firstJump)
             {
                 anim.SetBool("movingDown", true);
                 anim.SetBool("movingUp", false);
             }
-            else if (rb.velocity.y > 0.1f)
+            else if (rb.velocity.y > 1f)
             {
                 anim.SetBool("movingUp", true);
                 anim.SetBool("movingDown", false);
