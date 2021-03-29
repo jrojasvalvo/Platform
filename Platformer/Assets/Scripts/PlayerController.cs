@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
     private List<float> inputBuffer = new List<float>();
 
     public GameObject noah;
+    public PushController pushController;
 
     void Start()
     {
@@ -266,7 +267,7 @@ public class PlayerController : MonoBehaviour
         if (movingLeft)
         {
             accelerate(-speed);
-            if (facingRight)
+            if (facingRight && !pushController.pulling)
             {
                 reverseImage();
             }
@@ -274,7 +275,7 @@ public class PlayerController : MonoBehaviour
         else if (movingRight)
         {
             accelerate(speed);
-            if (!facingRight)
+            if (!facingRight && !pushController.pulling)
             {
                 reverseImage();
             }
