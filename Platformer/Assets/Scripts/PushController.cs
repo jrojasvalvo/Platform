@@ -37,11 +37,13 @@ public class PushController : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D col) {
-        if (pullKeyDown) {
-            pulling = true;
-            offset = p.transform.position - col.gameObject.transform.position;
-            box = col.gameObject;
-            p.firstJump = false;
+        if(col.tag == "Movable") {
+            if (pullKeyDown) {
+                pulling = true;
+                offset = p.transform.position - col.gameObject.transform.position;
+                box = col.gameObject;
+                p.firstJump = false;
+            }
         }
     }
     void OnTriggerStay2D(Collider2D col)

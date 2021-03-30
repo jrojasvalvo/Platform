@@ -426,6 +426,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D col) {
+        if(col.tag == "Hazard") {
+            resetRoom();
+        }
+    }
+
     void OnCollisionStay2D(Collision2D col) 
     {
         if (col.collider.tag == "Wall") 
@@ -455,6 +461,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public void resetRoom() {
+        movingLeft = false;
+        movingRight = false;
+        jumpPressed = false;
+        dashPressed = false;
+        dash = false;
+        yvel = 0;
+        moveVelocity = 0;
         deathSound.Play();
         StartCoroutine(MusicCoroutine());
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
