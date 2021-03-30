@@ -8,7 +8,7 @@ public class moveCamera : MonoBehaviour
     // Start is called before the first frame update
     float x;
     float y;
-    bool canScroll;
+    public bool canScroll;
     bool scrollingLeft = false;
     bool scrollingRight = false;
     bool scrollingDown = false;
@@ -55,7 +55,7 @@ public class moveCamera : MonoBehaviour
 
         if(scrollingLeft) {
             float currX = transform.position.x;
-            transform.position = new Vector3(currX - cameraScrollSpeed, y, -10f);
+            transform.position = new Vector3(currX - cameraScrollSpeed * Time.fixedDeltaTime, y, -10f);
             if(transform.position.x <= x) {
                 transform.position = new Vector3(x, y, -10f);
                 scrollingLeft = false;
@@ -68,7 +68,7 @@ public class moveCamera : MonoBehaviour
 
         if(scrollingRight) {
             float currX = transform.position.x;
-            transform.position = new Vector3(currX + cameraScrollSpeed, y, -10f);
+            transform.position = new Vector3(currX + cameraScrollSpeed * Time.fixedDeltaTime, y, -10f);
             if(transform.position.x >= x) {
                 transform.position = new Vector3(x, y, -10f);
                 scrollingRight = false;
@@ -99,7 +99,7 @@ public class moveCamera : MonoBehaviour
 
         if(scrollingDown) {
             float currY = transform.position.y;
-            transform.position = new Vector3(x, currY - cameraScrollSpeed, -10f);
+            transform.position = new Vector3(x, currY - cameraScrollSpeed * Time.fixedDeltaTime, -10f);
             if(transform.position.y <= y) {
                 transform.position = new Vector3(x, y, -10f);
                 scrollingDown = false;
@@ -111,7 +111,7 @@ public class moveCamera : MonoBehaviour
 
         if(scrollingUp) {
             float currY = transform.position.y;
-            transform.position = new Vector3(x, currY + cameraScrollSpeed, -10f);
+            transform.position = new Vector3(x, currY + cameraScrollSpeed * Time.fixedDeltaTime, -10f);
             if(transform.position.y >= y) {
                 transform.position = new Vector3(x, y, -10f);
                 scrollingUp = false;

@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
 
     public bool isTouchingPlat;
 
-    public double playerHeight;
-
     public float deceleration;
     public float groundDeceleration;
     public float airDeceleration;
@@ -32,11 +30,11 @@ public class PlayerController : MonoBehaviour
 
     //Movement
     public float speed;
-    public float moveVelocity;
+    float moveVelocity;
     public bool facingRight;
 
     //Dash
-    public bool dash = false;
+    bool dash = false;
     public float dashSpeed;
     public float dashDuration;
     float dashTimer = 0.0f;
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
     public bool firstJump;
     public bool secondJump;
     float jumpStartTime;
-    public float yvel = 0f;
+    float yvel = 0f;
 
     bool touchingDoor = false;
 
@@ -221,7 +219,7 @@ public class PlayerController : MonoBehaviour
             deceleration = airDeceleration;
         }
 
-        if(moveVelocity <= 0.15f && moveVelocity >= -0.15f) {
+        if(moveVelocity <= 0.2f && moveVelocity >= -0.2f) {
             moveVelocity = 0;
         } else {
             // moveVelocity -= moveVelocity / deceleration;
@@ -307,7 +305,7 @@ public class PlayerController : MonoBehaviour
     //Player can jump slightly after leaving platform so game doesn't feel like its eating inputs
     public IEnumerator coyoteTime()
     {
-        yield return new WaitForSeconds((float)0.05);
+        yield return new WaitForSeconds((float)0.07);
         firstJump = false;
     }
 
@@ -470,6 +468,7 @@ public class PlayerController : MonoBehaviour
         moveVelocity = 0;
         deathSound.Play();
         StartCoroutine(MusicCoroutine());
+        cam.GetComponent<ScreenShake>().CameraShake();
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;

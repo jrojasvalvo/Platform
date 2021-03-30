@@ -42,7 +42,7 @@ public class FootController : MonoBehaviour
     void OnTriggerExit2D(Collider2D col) {
         if(col.tag == "Platform" || col.tag == "Movable") {
             p.isTouchingPlat = false;
-            p.firstJump = false;
+            //p.firstJump = false;
             StartCoroutine(p.coyoteTime());
         }
     }
