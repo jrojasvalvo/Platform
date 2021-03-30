@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     //Movement
     public float speed;
-    float moveVelocity;
+    public float moveVelocity;
     public bool facingRight;
 
     //Dash
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     public bool firstJump;
     public bool secondJump;
     float jumpStartTime;
-    float yvel = 0f;
+    public float yvel = 0f;
 
     bool touchingDoor = false;
 
@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
     public float normalGravity;
     public float fastFallGravity;
     private List<float> inputBuffer = new List<float>();
+
+    bool startedInAir = true;
 
     public GameObject noah;
     public PushController pushController;
@@ -159,10 +161,10 @@ public class PlayerController : MonoBehaviour
                 WallJump();
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
+            /*if (Input.GetKeyDown(KeyCode.R))
             {
                 resetRoom();
-            }
+            }*/
 
             rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
@@ -171,12 +173,12 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("movingUp", false);
                 anim.SetBool("movingDown", false);
             }
-            else if (rb.velocity.y < -0.1f && !firstJump)
+            else if (rb.velocity.y < -1f && !firstJump)
             {
                 anim.SetBool("movingDown", true);
                 anim.SetBool("movingUp", false);
             }
-            else if (rb.velocity.y > 0.1f)
+            else if (rb.velocity.y > 1f)
             {
                 anim.SetBool("movingUp", true);
                 anim.SetBool("movingDown", false);
@@ -212,7 +214,7 @@ public class PlayerController : MonoBehaviour
         //If we need to we can put the movement stuff here but it works in update for now
     }
 
-    void decelerate(bool onGround) {
+    public void decelerate(bool onGround) {
         if (onGround) {
             deceleration = groundDeceleration;
         } else {
@@ -317,6 +319,9 @@ public class PlayerController : MonoBehaviour
                 jump1Sound.Play();
                 jumpStartTime = Time.time;
                 yvel = firstJumpHeight;
+                if(dash && isTouchingPlat) {
+                    rb.AddForce(new Vector2(1000f, 0f));
+                }
                 firstJump = false;
             }
             else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding && canDoubleJump)
@@ -346,12 +351,17 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (dashPressed)
         {
+            if(isTouchingPlat) {
+                startedInAir = false;
+            }
+            
             anim.SetBool("dash", true);
             dashSound.Play();
             dash = true;
             dashTimer = 0.0f;
             dashCooldownTimer = dashCooldown;
             dashReset = false;
+            dashPressed = false;
         }
 
         //Update dash timers. Cannot dash infinitely.
@@ -367,13 +377,17 @@ public class PlayerController : MonoBehaviour
             } else {
                 moveVelocity = -dashSpeed;
             }
-            //rb.AddForce(Physics.gravity * (rb.mass * rb.mass)); //idk why this doesnt work
-            yvel = 0;
+
+            if(startedInAir) {
+                yvel = 0;
+            }
+
             if (dashTimer > dashDuration)
             {
                 dash = false;
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
+                startedInAir = true;
             }
         }
     }
@@ -412,6 +426,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D col) {
+        if(col.tag == "Hazard") {
+            resetRoom();
+        }
+    }
+
     void OnCollisionStay2D(Collision2D col) 
     {
         if (col.collider.tag == "Wall") 
@@ -441,6 +461,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public void resetRoom() {
+        movingLeft = false;
+        movingRight = false;
+        jumpPressed = false;
+        dashPressed = false;
+        dash = false;
+        yvel = 0;
+        moveVelocity = 0;
         deathSound.Play();
         StartCoroutine(MusicCoroutine());
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;

@@ -8,6 +8,7 @@ public class doorController : MonoBehaviour
     public bool locked;
     public int doorNum;
     public GameObject lockedDialogue;
+    public GameObject e;
 
     bool canOpen;
     // Start is called before the first frame update
@@ -23,9 +24,14 @@ public class doorController : MonoBehaviour
             lockedDialogue.SetActive(false);
         }
         if(Input.GetKeyDown(KeyCode.E) && canOpen) {
-            if(!locked) {
-                SceneManager.LoadScene("SampleScene");
-            } else {
+            if(!locked && doorNum == 1) {
+                SceneManager.LoadScene("Level1");
+            } else if(!locked && doorNum == 11) {
+                SceneManager.LoadScene("HubLevel");
+            } else if(!locked && doorNum == 2) {
+                SceneManager.LoadScene("Level2");
+            }
+            else {
                 lockedDialogue.SetActive(true);
             }
         }
@@ -34,12 +40,14 @@ public class doorController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) {
         if(col.tag == "Player") {
             canOpen = true;
+            e.SetActive(true);
         }
     }
 
     void OnTriggerExit2D(Collider2D col) {
         if(col.tag == "Player") {
             canOpen = false;
+            e.SetActive(false);
         }
     }
 }

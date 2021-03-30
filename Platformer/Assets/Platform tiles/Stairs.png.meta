@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 23c53885e9da95741a69cc4e1f279fd8
+guid: 1dff92e3e93b617489a8bf42139c9833
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2882421357133587669
-    second: House tiles_0
-  - first:
-      213: 5296352436279152190
-    second: House tiles_1
-  - first:
-      213: -9201705045460655436
-    second: House tiles_2
-  - first:
-      213: -2291333823782213446
-    second: House tiles_3
+      213: -2660968328804394481
+    second: Stairs_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,11 +102,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: House tiles_0
+      name: Stairs_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 45
+        x: 178
+        y: 149
         width: 32
         height: 32
       alignment: 0
@@ -125,71 +116,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d462fcd3fa600820800000000000000
-      internalID: 2882421357133587669
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: House tiles_1
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 45
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e3e81b1ca7c608940800000000000000
-      internalID: 5296352436279152190
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: House tiles_2
-      rect:
-        serializedVersion: 2
-        x: 6
-        y: 7
-        width: 31
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b2e56d830afc4080800000000000000
-      internalID: -9201705045460655436
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: House tiles_3
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 7
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ab8af9bf60c8330e0800000000000000
-      internalID: -2291333823782213446
+      spriteID: f0a9c034767521bd0800000000000000
+      internalID: -2660968328804394481
       vertices: []
       indices: 
       edges: []
