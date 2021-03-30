@@ -22,13 +22,16 @@ public class PushController : MonoBehaviour
     void Update()
     {
         if (pulling) {
+            p.firstJump = false;
+            p.secondJump = false;
             box.transform.position = p.transform.position - offset;
-        }
+        } 
 
         if (Input.GetKeyDown(KeyCode.LeftControl)) {
             pullKeyDown = true;
         } if (Input.GetKeyUp(KeyCode.LeftControl)) {
             pullKeyDown = false;
+            pulling = false;
         }            
     }
 
@@ -39,9 +42,6 @@ public class PushController : MonoBehaviour
             offset = p.transform.position - col.gameObject.transform.position;
             box = col.gameObject;
             p.firstJump = false;
-        } else if (!pullKeyDown) {
-            pulling = false;
-            p.firstJump = true;
         }
     }
     void OnTriggerStay2D(Collider2D col)
@@ -56,7 +56,6 @@ public class PushController : MonoBehaviour
                 p.firstJump = false;
             } else if (!pullKeyDown) {
                 pulling = false;
-                p.firstJump = true;
             }
             
             if (p.movingLeft || p.movingRight)
