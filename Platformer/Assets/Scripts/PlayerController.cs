@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     //Movement
     public float speed;
-    float moveVelocity;
+    public float moveVelocity;
     public bool facingRight;
 
     //Dash
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     public bool dashReset;
     
-    public bool canDash;
+    //public bool canDash;
     public bool canDoubleJump;
     public bool canWallJump;
 
@@ -123,59 +123,10 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            //Movement Stuff
-
-            //Get Inputs
-            movingLeft = false;
-            movingRight = false;
-            jumpPressed = false;
-            dashPressed = false;
-            // To stop player from entering idle animation when switching directions
-            anim.SetBool("pressingLeftorRight", false);
-
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                movingLeft = true;
-                movingRight = false;
-                anim.SetBool("pressingLeftorRight", true);
-            }
-            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                movingLeft = false;
-                movingRight = true;
-                anim.SetBool("pressingLeftorRight", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
-            {
-                jumpPressed = true;
-                inputBuffer.Add(Time.time);
-                rb.gravityScale = normalGravity;
-            }
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
-            {
-                rb.gravityScale = fastFallGravity;
-            }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash)
-            {
-                dashPressed = true;
-            }
-
-            SideMovement();
-            tryBufferedJump();
-            Jump();
+            getInputs();
+            //Would sometimes not dash when in fixedupdate
             Dash();
 
-            if (canWallJump)
-            {
-                WallJump();
-            }
-
-            /*if (Input.GetKeyDown(KeyCode.R))
-            {
-                resetRoom();
-            }*/
-
-            rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
             if (rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f)
             {
@@ -213,9 +164,71 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    void getInputs() {
+        movingLeft = false;
+        movingRight = false;
+        jumpPressed = false;
+        dashPressed = false;
+        // To stop player from entering idle animation when switching directions
+        anim.SetBool("pressingLeftorRight", false);
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            movingLeft = true;
+            movingRight = false;
+            anim.SetBool("pressingLeftorRight", true);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            movingLeft = false;
+            movingRight = true;
+            anim.SetBool("pressingLeftorRight", true);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
+        {
+            jumpPressed = true;
+            inputBuffer.Add(Time.time);
+            rb.gravityScale = normalGravity;
+        }
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
+        {
+            rb.gravityScale = fastFallGravity;
+        }
+        //had canDash, but doesn't look like it was being used
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
+        {
+            dashPressed = true;
+        }
+
+        // if (dashPressed) {
+        //     Debug.Log("pressed");
+        // }
+        Debug.Log(dashTimer);
+    }
+
     void FixedUpdate()
     {
         //If we need to we can put the movement stuff here but it works in update for now
+        if (canMove) {
+            //Movement Stuff
+        
+            SideMovement();
+            tryBufferedJump();
+            Jump();
+            
+            if (canWallJump)
+            {
+                WallJump();
+            }
+
+            /*if (Input.GetKeyDown(KeyCode.R))
+            {
+                resetRoom();
+            }*/
+
+            rb.velocity = new Vector2(moveVelocity, yvel);
+        }
     }
 
     public void decelerate(bool onGround) {
@@ -270,26 +283,28 @@ public class PlayerController : MonoBehaviour
         yvel = rb.velocity.y;
 
         //Left Right Movement
-        if (movingLeft)
-        {
-            accelerate(-speed);
-            if (facingRight && !pushController.pulling)
+        if (!dash) {
+            if (movingLeft)
             {
-                reverseImage();
+                accelerate(-speed);
+                if (facingRight && !pushController.pulling)
+                {
+                    reverseImage();
+                }
             }
-        }
-        else if (movingRight)
-        {
-            accelerate(speed);
-            if (!facingRight && !pushController.pulling)
+            else if (movingRight)
             {
-                reverseImage();
-            }
-        } else {
-            if(isTouchingPlat) {
-                decelerate(true);
+                accelerate(speed);
+                if (!facingRight && !pushController.pulling)
+                {
+                    reverseImage();
+                }
             } else {
-                decelerate(false);
+                if(isTouchingPlat) {
+                    decelerate(true);
+                } else {
+                    decelerate(false);
+                }
             }
         }
     }
@@ -368,11 +383,6 @@ public class PlayerController : MonoBehaviour
             dashPressed = false;
         }
 
-        //Update dash timers. Cannot dash infinitely.
-        if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
-        dashTimer += Time.deltaTime;
-
-        
         //Do not fall during dash, end dash if past timer
         if (dash)
         {
@@ -398,6 +408,10 @@ public class PlayerController : MonoBehaviour
                 startedInAir = true;
             }
         }
+
+        //Update dash timers. Cannot dash infinitely.
+        if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
+        dashTimer += Time.deltaTime;
     }
 
     void WallJump() {
