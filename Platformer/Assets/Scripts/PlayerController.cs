@@ -472,6 +472,7 @@ public class PlayerController : MonoBehaviour
         yvel = 0;
         moveVelocity = 0;
         deathSound.Play();
+        canMove = false;
         StartCoroutine(MusicCoroutine());
         if (music.volume < 1)
         {
@@ -484,6 +485,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
+        canMove = true;
     }
 
     IEnumerator MusicCoroutine()
