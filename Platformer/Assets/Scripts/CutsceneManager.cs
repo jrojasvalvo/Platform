@@ -59,7 +59,10 @@ public class CutsceneManager : MonoBehaviour
 
     // Plays the next cutscene
     public void PlayNext()
-    {
+    {   
+        if(index > 1) {
+            player.GetComponent<PlayerController>().canDash = true;
+        }
         cutsceneMusic.SetActive(true);
         if (index < cutscenes.Length)
         {
