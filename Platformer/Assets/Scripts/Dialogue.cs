@@ -34,7 +34,7 @@ public class Dialogue : MonoBehaviour
     void OnEnable()
     {
         cutsceneManager = GameObject.Find("CutsceneManager"); 
-        player.GetComponent<PlayerController>().enabled = false;
+        //player.GetComponent<PlayerController>().enabled = false;
         index = 0;
         if (characters[index] == "Seth")
         {
@@ -125,10 +125,11 @@ public class Dialogue : MonoBehaviour
             {
                 //playableDirector.Stop();
                 //noahsprite.SetActive(false);
-                player.GetComponent<PlayerController>().facingRight = true;
+                cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
                 //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
             }
-            player.GetComponent<PlayerController>().enabled = true;
+            player.GetComponent<PlayerController>().facingRight = true;
+            //player.GetComponent<PlayerController>().enabled = true;
             dialogbox.SetActive(false);
         }
     }

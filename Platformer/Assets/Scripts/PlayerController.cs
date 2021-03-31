@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     AudioSource jump2Sound;
     AudioSource dashSound;
     AudioSource deathSound;
-    public AudioSource music;
+    AudioSource music;
 
 
     private Rigidbody2D rb;
@@ -88,6 +88,14 @@ public class PlayerController : MonoBehaviour
     private List<float> inputBuffer = new List<float>();
 
     public GameObject cutsceneManager;
+    private bool midcutsceneComplete;
+
+    public AudioSource cutsceneMusic;
+
+    void OnAwake()
+    {
+        cutsceneMusic.Stop();
+    }
 
     void Start()
     {
@@ -105,7 +113,8 @@ public class PlayerController : MonoBehaviour
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
         cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
-        //music.Play();
+        music.Play();
+        midcutsceneComplete = false;
     }
 
     void Update()
@@ -193,19 +202,13 @@ public class PlayerController : MonoBehaviour
             resetRoom();
         }
 
-        /* old code that deactivates music during cutscene
-        if (noah.activeSelf == true)
+
+        //Level 1 Cutscene Trigger
+        if (!midcutsceneComplete && SceneManager.GetActiveScene().name == "SampleScene" && rb.transform.position.x > 27)
         {
-            music.volume -= 0.5f;
+            cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            midcutsceneComplete = true;
         }
-        else if (noah.activeSelf == false && deathSound.isPlaying == false)
-        {
-            if (music.volume < 0.5f)
-            {
-                music.volume += 0.005f;
-            }
-        }
-        */
     }
 
     void FixedUpdate()
