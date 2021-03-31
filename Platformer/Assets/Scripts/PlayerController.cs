@@ -191,8 +191,7 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y <= -5f)
         {
-            music.volume = 0.1f;
-            StartCoroutine(MusicCoroutine());
+            music.volume = 0.5f;
             resetRoom();
         }
 
@@ -202,7 +201,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (noah.activeSelf == false && deathSound.isPlaying == false)
         {
-            if (music.volume < 0.5f)
+            if (music.volume < 1)
             {
                 music.volume += 0.005f;
             }
@@ -474,6 +473,10 @@ public class PlayerController : MonoBehaviour
         moveVelocity = 0;
         deathSound.Play();
         StartCoroutine(MusicCoroutine());
+        if (music.volume < 1)
+        {
+            music.volume += 0.005f;
+        }
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
