@@ -139,6 +139,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7989192906271546644, guid: 40e3b315bf3526d449b6883f5544b7ec,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989192906271546644, guid: 40e3b315bf3526d449b6883f5544b7ec,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989192906271546644, guid: 40e3b315bf3526d449b6883f5544b7ec,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
+      objectReference: {fileID: 0}
     - target: {fileID: 7989192906271546645, guid: 40e3b315bf3526d449b6883f5544b7ec,
         type: 3}
       propertyPath: m_Camera
