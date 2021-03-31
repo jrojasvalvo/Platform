@@ -87,10 +87,19 @@ public class PlayerController : MonoBehaviour
     public float fastFallGravity;
     private List<float> inputBuffer = new List<float>();
 
+    public GameObject cutsceneManager;
+    private bool midcutsceneComplete;
+
+    public AudioSource cutsceneMusic;
     bool startedInAir = true;
 
     public GameObject noah;
     public PushController pushController;
+
+    void OnAwake()
+    {
+        cutsceneMusic.Stop();
+    }
 
     void Start()
     {
@@ -107,8 +116,9 @@ public class PlayerController : MonoBehaviour
         music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
-
+        cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
         music.Play();
+        midcutsceneComplete = false;
     }
 
     void Update()
@@ -195,16 +205,12 @@ public class PlayerController : MonoBehaviour
             resetRoom();
         }
 
-        if (noah.activeSelf == true)
+
+        //Level 1 Cutscene Trigger
+        if (!midcutsceneComplete && SceneManager.GetActiveScene().name == "Level1" && rb.transform.position.x > 27)
         {
-            music.volume -= 0.5f;
-        }
-        else if (noah.activeSelf == false && deathSound.isPlaying == false)
-        {
-            if (music.volume < 1)
-            {
-                music.volume += 0.005f;
-            }
+            cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            midcutsceneComplete = true;
         }
     }
 
