@@ -9,6 +9,8 @@ TagManager:
   - Movable
   - Foot
   - Sound
+  - Hazard
+  - Barrier
   layers:
   - Default
   - TransparentFX
