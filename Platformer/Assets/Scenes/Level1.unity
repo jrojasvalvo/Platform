@@ -22413,6 +22413,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 5837237032658018203, guid: 05940d50165feb94081bae38ebcd4be7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Barrier
+      objectReference: {fileID: 0}
     - target: {fileID: 5837237032658018204, guid: 05940d50165feb94081bae38ebcd4be7,
         type: 3}
       propertyPath: m_RootOrder
