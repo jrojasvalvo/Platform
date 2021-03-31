@@ -2820,6 +2820,11 @@ PrefabInstance:
       propertyPath: noah
       value: 
       objectReference: {fileID: 1987253889}
+    - target: {fileID: 6821380425283945417, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
+      propertyPath: groundDeceleration
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6821380425283945419, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
         type: 3}
       propertyPath: m_RootOrder

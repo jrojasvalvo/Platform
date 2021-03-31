@@ -166,6 +166,7 @@ public class PlayerController : MonoBehaviour
             tryBufferedJump();
             Jump();
             Dash();
+
             if (canWallJump)
             {
                 WallJump();
