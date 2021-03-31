@@ -29,16 +29,19 @@ public class AudioController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // deactivates music during cutscene
-        if (cutsceneManager.GetComponent<CutsceneManager>().cutsceneActive)
+        if (cutsceneManager.activeSelf)
         {
-            music.volume -= 0.5f;
-        }
-        else if (deathSound.isPlaying == false)
-        {
-            if (music.volume < 1)
+            // deactivates music during cutscene
+            if (cutsceneManager.GetComponent<CutsceneManager>().cutsceneActive)
             {
-                music.volume += 0.005f;
+                music.volume -= 0.5f;
+            }
+            else if (deathSound.isPlaying == false)
+            {
+                if (music.volume < 1)
+                {
+                    music.volume += 0.005f;
+                }
             }
         }
     }
