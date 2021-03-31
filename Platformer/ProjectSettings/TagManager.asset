@@ -5,13 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platform
-  - Wall
-  - Hazard
-  - Border
   - MovablesParent
   - Movable
-  - Door
   - Foot
+  - Sound
+  - Hazard
+  - Barrier
   layers:
   - Default
   - TransparentFX

@@ -10,12 +10,17 @@ public class PushController : MonoBehaviour
     bool pullKeyDown = false;
     Vector3 offset;
     GameObject box;
+
+    public AudioClip pushSound;
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectsWithTag("Player");
         p = player[0].GetComponent<PlayerController>();
 
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -63,8 +68,17 @@ public class PushController : MonoBehaviour
             if (p.movingLeft || p.movingRight)
             {
                 p.anim.SetBool("pushing", true);
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(pushSound);
+                }
             } else {
                 p.anim.SetBool("pushing", false);
+            }
+
+            if (p.moveVelocity == 0)
+            {
+                audioSource.Stop();
             }
         }
     }

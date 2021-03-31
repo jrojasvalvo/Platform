@@ -11,10 +11,15 @@ public class doorController : MonoBehaviour
     public GameObject e;
 
     bool canOpen;
+
+    public GameObject doorSound;
+    public doorSound d;
     // Start is called before the first frame update
     void Start()
     {
         lockedDialogue.SetActive(false);
+
+        d = GameObject.FindWithTag("Sound").GetComponent<doorSound>();
     }
 
     // Update is called once per frame
@@ -26,10 +31,16 @@ public class doorController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E) && canOpen) {
             if(!locked && doorNum == 1) {
                 SceneManager.LoadScene("Level1");
+                d.PlaySound();
             } else if(!locked && doorNum == 11) {
                 SceneManager.LoadScene("HubLevel");
+                d.PlaySound();
             } else if(!locked && doorNum == 2) {
                 SceneManager.LoadScene("Level2");
+                d.PlaySound();
+            } else if (!locked && doorNum == 21) {
+                SceneManager.LoadScene("HubLevel");
+                d.PlaySound();
             }
             else {
                 lockedDialogue.SetActive(true);

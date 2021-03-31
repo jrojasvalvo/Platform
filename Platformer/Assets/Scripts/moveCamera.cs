@@ -18,12 +18,15 @@ public class moveCamera : MonoBehaviour
 
     Camera cam;
 
+    GameObject barrier;
+
     public float roomWidth;
     public float roomHeight;
 
     void Start()
     {
         player = GameObject.FindGameObjectsWithTag("Player");
+        barrier = GameObject.FindGameObjectsWithTag("Barrier")[0];
         x = transform.position.x;
         y = transform.position.y;
         canScroll = true;
@@ -43,6 +46,7 @@ public class moveCamera : MonoBehaviour
             //if scrolling freeze world movement
             Time.timeScale = 0;
             player[0].GetComponent<PlayerController>().canMove = false;
+            barrier.transform.position = new Vector3(barrier.transform.position.x + roomWidth, barrier.transform.position.y, barrier.transform.position.z);
         } else if(player[0].transform.position.x < transform.position.x - (roomWidth / 2f) && canScroll) {
             canScroll = false;
             x -= roomWidth;

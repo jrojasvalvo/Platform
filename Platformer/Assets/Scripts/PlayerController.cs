@@ -85,10 +85,19 @@ public class PlayerController : MonoBehaviour
     public float fastFallGravity;
     private List<float> inputBuffer = new List<float>();
 
+    public GameObject cutsceneManager;
+    private bool midcutsceneComplete;
+
+    public AudioSource cutsceneMusic;
     bool startedInAir = true;
 
     public GameObject noah;
     public PushController pushController;
+
+    void OnAwake()
+    {
+        cutsceneMusic.Stop();
+    }
 
     void Start()
     {
@@ -105,8 +114,9 @@ public class PlayerController : MonoBehaviour
         music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
-
+        cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
         music.Play();
+        midcutsceneComplete = false;
     }
 
     void Update()
@@ -189,21 +199,16 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y <= -5f)
         {
-            music.volume = 0.1f;
-            StartCoroutine(MusicCoroutine());
+            music.volume = 0.5f;
             resetRoom();
         }
 
-        if (noah.activeSelf == true)
+
+        //Level 1 Cutscene Trigger
+        if (!midcutsceneComplete && SceneManager.GetActiveScene().name == "Level1" && rb.transform.position.x > 27)
         {
-            music.volume -= 0.5f;
-        }
-        else if (noah.activeSelf == false && deathSound.isPlaying == false)
-        {
-            if (music.volume < 0.5f)
-            {
-                music.volume += 0.005f;
-            }
+            cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            midcutsceneComplete = true;
         }
     }
 
@@ -376,8 +381,12 @@ public class PlayerController : MonoBehaviour
                 moveVelocity = -dashSpeed;
             }
 
-            if(startedInAir) {
+            if(startedInAir && secondJump) {
                 yvel = 0;
+            } else if (!secondJump) {
+                if(yvel <= 0) {
+                    yvel = 0;
+                }
             }
 
             if (dashTimer > dashDuration)
@@ -467,8 +476,13 @@ public class PlayerController : MonoBehaviour
         yvel = 0;
         moveVelocity = 0;
         deathSound.Play();
+        canMove = false;
         StartCoroutine(MusicCoroutine());
         cam.GetComponent<ScreenShake>().CameraShake();
+        if (music.volume < 1)
+        {
+            music.volume += 0.005f;
+        }
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
@@ -476,6 +490,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
+        canMove = true;
     }
 
     IEnumerator MusicCoroutine()
