@@ -38,6 +38,9 @@ public class doorController : MonoBehaviour
             } else if(!locked && doorNum == 2) {
                 SceneManager.LoadScene("Level2");
                 d.PlaySound();
+            } else if (!locked && doorNum == 21) {
+                SceneManager.LoadScene("HubLevel");
+                d.PlaySound();
             }
             else {
                 lockedDialogue.SetActive(true);
