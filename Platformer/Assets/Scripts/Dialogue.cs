@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.SceneManagement;
 
 public class Dialogue : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class Dialogue : MonoBehaviour
 
     void OnEnable()
     {
-        cutsceneManager = GameObject.Find("CutsceneManager"); 
+        cutsceneManager = GameObject.Find("CutsceneManager");
+        player = GameObject.Find("Player");
         //player.GetComponent<PlayerController>().enabled = false;
         index = 0;
         if (characters[index] == "Seth")
@@ -127,6 +129,11 @@ public class Dialogue : MonoBehaviour
                 //noahsprite.SetActive(false);
                 cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
                 //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            }
+            if (SceneManager.GetActiveScene().name == "StartingScene")
+            {
+                SceneManager.LoadScene("HubLevel");
+                return;
             }
             player.GetComponent<PlayerController>().facingRight = true;
             //player.GetComponent<PlayerController>().enabled = true;

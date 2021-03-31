@@ -22,7 +22,7 @@ public class FootController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D col) {
-        if(col.tag == "Platform" || col.tag == "Movable") {
+        if((col.tag == "Platform" || col.tag == "Movable") && this.tag == "Foot") {
             p.firstJump = true;
             p.secondJump = true;
             p.isTouchingPlat = true;
@@ -31,7 +31,7 @@ public class FootController : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D col) {
-        if(col.tag == "Platform" || col.tag == "Movable") {
+        if((col.tag == "Platform" || col.tag == "Movable") && this.tag == "Foot") {
             p.firstJump = true;
             p.secondJump = true;
             p.isTouchingPlat = true;
@@ -42,6 +42,7 @@ public class FootController : MonoBehaviour
     void OnTriggerExit2D(Collider2D col) {
         if(col.tag == "Platform" || col.tag == "Movable") {
             p.isTouchingPlat = false;
+            p.firstJump = false;
             StartCoroutine(p.coyoteTime());
         }
     }

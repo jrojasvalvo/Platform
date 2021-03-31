@@ -36,7 +36,7 @@ public class AudioController : MonoBehaviour
         }
         else if (deathSound.isPlaying == false)
         {
-            if (music.volume < 0.5f)
+            if (music.volume < 1)
             {
                 music.volume += 0.005f;
             }

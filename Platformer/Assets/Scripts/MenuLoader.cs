@@ -13,7 +13,7 @@ public class MenuLoader : MonoBehaviour
 
     public void LoadHub()
     {
-        SceneManager.LoadScene("HubLevel");
+        SceneManager.LoadScene("StartingScene");
     }
 
     // Update is called once per frame

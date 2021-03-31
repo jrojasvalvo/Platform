@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -135.2}
+  m_AnchoredPosition: {x: 0, y: -135}
   m_SizeDelta: {x: 1000, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5260066
@@ -197,7 +197,7 @@ MonoBehaviour:
     Click/Enter key to
     advance text
 
-    E to interact with objects
+    Ctrl to pull objects
 
     More to be revealed...'
 --- !u!222 &5260067
