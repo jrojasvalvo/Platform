@@ -378,8 +378,12 @@ public class PlayerController : MonoBehaviour
                 moveVelocity = -dashSpeed;
             }
 
-            if(startedInAir) {
+            if(startedInAir && secondJump) {
                 yvel = 0;
+            } else if (!secondJump) {
+                if(yvel <= 0) {
+                    yvel = 0;
+                }
             }
 
             if (dashTimer > dashDuration)
