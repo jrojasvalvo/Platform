@@ -280,10 +280,9 @@ public class PlayerController : MonoBehaviour
 
     void SideMovement() {
         
-        yvel = rb.velocity.y;
-
         //Left Right Movement
         if (!dash) {
+            yvel = rb.velocity.y;
             if (movingLeft)
             {
                 accelerate(-speed);
@@ -386,13 +385,14 @@ public class PlayerController : MonoBehaviour
         //Do not fall during dash, end dash if past timer
         if (dash)
         {
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             if(facingRight) {
                 moveVelocity = dashSpeed;
             } else {
                 moveVelocity = -dashSpeed;
             }
 
-            if(startedInAir && secondJump) {
+            if(startedInAir) {
                 yvel = 0;
             } else if (!secondJump) {
                 if(yvel <= 0) {
@@ -406,6 +406,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
                 startedInAir = true;
+                GetComponent<Rigidbody2D>().gravityScale = 5;
             }
         }
 

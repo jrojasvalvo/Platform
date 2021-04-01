@@ -516,6 +516,11 @@ PrefabInstance:
       objectReference: {fileID: 1351503257}
     - target: {fileID: 6821380425283945417, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
         type: 3}
+      propertyPath: cooldown
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821380425283945417, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
       propertyPath: canDoubleJump
       value: 1
       objectReference: {fileID: 0}
@@ -732,6 +737,21 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1432542402}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &483677786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483677781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b75a36453a1c2488ff1e59e4e838ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.1
+  magnitude: 0.1
+  dampingSpeed: 2
 --- !u!95 &554763086 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7638832009804294449, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
@@ -11677,7 +11697,7 @@ PrefabInstance:
     - target: {fileID: 5483359136940743315, guid: 7baa2dbc340efde4faa8111260c92db0,
         type: 3}
       propertyPath: cameraScrollSpeed
-      value: 0.2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5483359136940743343, guid: 7baa2dbc340efde4faa8111260c92db0,
         type: 3}
