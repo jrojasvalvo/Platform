@@ -17,6 +17,9 @@ public class CutsceneManager : MonoBehaviour
     public GameObject cutsceneActiveObj;
     bool dialogueActive;
 
+    public GameObject music;
+    public CutsceneMusic cutsceneAudioManager;
+
     void Start()
     {
         index = 0;
@@ -27,6 +30,9 @@ public class CutsceneManager : MonoBehaviour
             g.SetActive(false);
         }
         PlayNext();
+
+        cutsceneAudioManager = GameObject.FindWithTag("Music2").GetComponent<CutsceneMusic>();
+        cutsceneAudioManager.PlayMusic();
     }
 
     void FixedUpdate()
@@ -53,7 +59,8 @@ public class CutsceneManager : MonoBehaviour
         } else
         {
             player.GetComponent<PlayerController>().enabled = true;
-            cutsceneMusic.SetActive(false);
+            cutsceneAudioManager.FadeVolume();
+            //cutsceneMusic.SetActive(false);
         }
     }
 
