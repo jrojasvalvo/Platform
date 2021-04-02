@@ -12,6 +12,8 @@ TagManager:
   - Hazard
   - Barrier
   - Boss
+  - Music
+  - Music2
   layers:
   - Default
   - TransparentFX

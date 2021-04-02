@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     AudioSource jump2Sound;
     AudioSource dashSound;
     AudioSource deathSound;
-    AudioSource music;
+   // AudioSource music;
 
 
     private Rigidbody2D rb;
@@ -97,6 +97,9 @@ public class PlayerController : MonoBehaviour
     public GameObject noah;
     public PushController pushController;
 
+    public GameObject music;
+    public AudioManager audioManager;
+
     void OnAwake()
     {
         cutsceneMusic.Stop();
@@ -114,11 +117,12 @@ public class PlayerController : MonoBehaviour
         jump2Sound = sounds[1];
         dashSound = sounds[2];
         deathSound = sounds[3];
-        music = sounds[4];
+        //music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
         cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
-        music.Play();
+        audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
+        audioManager.PlayMusic();
         midcutsceneComplete = false;
         boss = GameObject.Find("Boss");
     }
@@ -155,7 +159,8 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y <= -5f)
         {
-            music.volume = 0.5f;
+            //music.volume = 0.5f;
+            audioManager.LowerVolume();
             resetRoom();
         }
 
@@ -279,10 +284,9 @@ public class PlayerController : MonoBehaviour
 
     void SideMovement() {
         
-        yvel = rb.velocity.y;
-
         //Left Right Movement
         if (!dash) {
+            yvel = rb.velocity.y;
             if (movingLeft)
             {
                 accelerate(-speed);
@@ -387,13 +391,14 @@ public class PlayerController : MonoBehaviour
         //Do not fall during dash, end dash if past timer
         if (dash)
         {
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             if(facingRight) {
                 moveVelocity = dashSpeed;
             } else {
                 moveVelocity = -dashSpeed;
             }
 
-            if(startedInAir && secondJump) {
+            if(startedInAir) {
                 yvel = 0;
             } else if (!secondJump) {
                 if(yvel <= 0) {
@@ -407,6 +412,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
                 startedInAir = true;
+                GetComponent<Rigidbody2D>().gravityScale = 5;
             }
         }
 
@@ -494,12 +500,13 @@ public class PlayerController : MonoBehaviour
         yvel = 0;
         moveVelocity = 0;
         deathSound.Play();
+        audioManager.LowerVolume();
         canMove = false;
-        StartCoroutine(MusicCoroutine());
-        cam.GetComponent<ScreenShake>().CameraShake();
-        if (music.volume < 1)
+       // StartCoroutine(MusicCoroutine());
+       // cam.GetComponent<ScreenShake>().CameraShake();
+        if (audioManager.music.volume < 0.5f)
         {
-            music.volume += 0.005f;
+            audioManager.music.volume += 0.005f;
         }
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
@@ -515,7 +522,7 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    IEnumerator MusicCoroutine()
+   /* IEnumerator MusicCoroutine()
     {
         music.volume = 0.1f;
         if (music.volume < 0.5f)
@@ -538,5 +545,5 @@ public class PlayerController : MonoBehaviour
             music.volume += 0.05f;
             yield return new WaitForSeconds(1);
         }
-    }
+    }*/
 }

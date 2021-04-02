@@ -10,8 +10,11 @@ public class AudioController : MonoBehaviour
     AudioSource jump2Sound;
     AudioSource dashSound;
     AudioSource deathSound;
-    AudioSource music;
+    //AudioSource music;
     public GameObject cutsceneManager;
+
+    public GameObject music;
+    public AudioManager audioManager;
 
 
     // Start is called before the first frame update
@@ -22,8 +25,9 @@ public class AudioController : MonoBehaviour
         jump2Sound = sounds[1];
         dashSound = sounds[2];
         deathSound = sounds[3];
-        music = sounds[4];
+       // music = sounds[4];
         cutsceneManager = GameObject.Find("CutsceneManager");
+        audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -34,13 +38,13 @@ public class AudioController : MonoBehaviour
             // deactivates music during cutscene
             if (cutsceneManager.GetComponent<CutsceneManager>().cutsceneActive)
             {
-                music.volume -= 0.5f;
+                audioManager.music.volume = 0;
             }
             else if (deathSound.isPlaying == false)
             {
-                if (music.volume < 1)
+                if (audioManager.music.volume < 0.5f)
                 {
-                    music.volume += 0.005f;
+                    audioManager.music.volume += 0.005f;
                 }
             }
         }
