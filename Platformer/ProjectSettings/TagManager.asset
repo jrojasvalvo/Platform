@@ -11,6 +11,7 @@ TagManager:
   - Sound
   - Hazard
   - Barrier
+  - Boss
   layers:
   - Default
   - TransparentFX

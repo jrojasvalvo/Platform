@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
     public bool canDoubleJump;
     public bool canWallJump;
 
+    public float bossInputDelay;
+    public GameObject boss;
+
     public BoxCollider2D hitBox;
 
     public bool movingLeft;
@@ -117,6 +120,7 @@ public class PlayerController : MonoBehaviour
         cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
         music.Play();
         midcutsceneComplete = false;
+        boss = GameObject.Find("Boss");
     }
 
     void Update()
@@ -200,11 +204,6 @@ public class PlayerController : MonoBehaviour
         {
             dashPressed = true;
         }
-
-        // if (dashPressed) {
-        //     Debug.Log("pressed");
-        // }
-        Debug.Log(dashTimer);
     }
 
     void FixedUpdate()
@@ -333,6 +332,7 @@ public class PlayerController : MonoBehaviour
     void Jump() {
         if (jumpPressed)
         {
+            // boss.GetComponent<bossController>().StartCoroutine("bossJump");
             if (firstJump)
             {
                 jump1Sound.Play();
@@ -370,6 +370,7 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (dashPressed)
         {
+            // boss.GetComponent<bossController>().StartCoroutine("bossDash");
             if(isTouchingPlat) {
                 startedInAir = false;
             }
@@ -415,6 +416,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void WallJump() {
+        // boss.GetComponent<bossController>().StartCoroutine("bossWallJump");
         if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
             wallSliding = true;
         } else {
@@ -428,6 +430,7 @@ public class PlayerController : MonoBehaviour
 
     void reverseImage()
     {   
+        // boss.GetComponent<bossController>().StartCoroutine("bossReverseImage");
         facingRight = !facingRight;
         
         Vector2 scale = rb.transform.localScale;
@@ -502,6 +505,10 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector3(resetX, -3f, 0f);
         yvel = 0f;
         moveVelocity = 0f;
+
+        // boss.transform.position = new Vector3(resetX, -3f, 0f);
+        // boss.GetComponent<bossController>().yvel = 0f;
+        // boss.GetComponent<bossController>().moveVelocity = 0f;
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }

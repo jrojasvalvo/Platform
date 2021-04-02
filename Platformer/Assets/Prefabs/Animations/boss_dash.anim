@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_dash
+  m_Name: boss_dash
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,16 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 3931130556691139218, guid: 14478e85012f94449a90a53a206578b8,
+      value: {fileID: -6378023622594767823, guid: f631e233615b9854aa7224597ebb672b,
         type: 3}
     - time: 0.016666668
-      value: {fileID: 4485085139273253999, guid: 14478e85012f94449a90a53a206578b8,
+      value: {fileID: 2896713160933158873, guid: f631e233615b9854aa7224597ebb672b,
         type: 3}
     - time: 0.033333335
-      value: {fileID: 6139462977855244338, guid: 14478e85012f94449a90a53a206578b8,
+      value: {fileID: 4395873105776910640, guid: f631e233615b9854aa7224597ebb672b,
         type: 3}
     - time: 0.05
-      value: {fileID: -4434544975388640547, guid: 14478e85012f94449a90a53a206578b8,
+      value: {fileID: -6114864454517534253, guid: f631e233615b9854aa7224597ebb672b,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -50,10 +50,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 3931130556691139218, guid: 14478e85012f94449a90a53a206578b8, type: 3}
-    - {fileID: 4485085139273253999, guid: 14478e85012f94449a90a53a206578b8, type: 3}
-    - {fileID: 6139462977855244338, guid: 14478e85012f94449a90a53a206578b8, type: 3}
-    - {fileID: -4434544975388640547, guid: 14478e85012f94449a90a53a206578b8, type: 3}
+    - {fileID: -6378023622594767823, guid: f631e233615b9854aa7224597ebb672b, type: 3}
+    - {fileID: 2896713160933158873, guid: f631e233615b9854aa7224597ebb672b, type: 3}
+    - {fileID: 4395873105776910640, guid: f631e233615b9854aa7224597ebb672b, type: 3}
+    - {fileID: -6114864454517534253, guid: f631e233615b9854aa7224597ebb672b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
