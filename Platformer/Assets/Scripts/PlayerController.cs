@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -97,6 +98,9 @@ public class PlayerController : MonoBehaviour
     public GameObject music;
     public AudioManager audioManager;
 
+    public GameObject blackscreen;
+    public Image blackscreenImg;
+
     void OnAwake()
     {
         cutsceneMusic.Stop();
@@ -121,6 +125,9 @@ public class PlayerController : MonoBehaviour
         audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
         audioManager.PlayMusic();
         midcutsceneComplete = false;
+        blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
+        blackscreenImg = blackscreen.GetComponent<Image>();
+
     }
 
     void Update()
@@ -489,6 +496,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void resetRoom() {
+        StartCoroutine(DeathScreenFade());
         movingLeft = false;
         movingRight = false;
         jumpPressed = false;
@@ -513,6 +521,16 @@ public class PlayerController : MonoBehaviour
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
         canMove = true;
+    }
+
+    IEnumerator DeathScreenFade()
+    {
+        blackscreenImg.color = new Color(0f, 0f, 0f, 1f);
+        while (blackscreenImg.color.a > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            blackscreenImg.color = new Color(0f, 0f, 0f, blackscreenImg.color.a-0.1f);
+        }
     }
 
    /* IEnumerator MusicCoroutine()
