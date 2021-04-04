@@ -57,11 +57,13 @@ public class PushController : MonoBehaviour
         if (col.tag == "Movable")
         {   
             if (pullKeyDown) {
+                p.anim.SetBool("pulling", true);
                 pulling = true;
                 offset = p.transform.position - col.gameObject.transform.position;
                 box = col.gameObject;
                 p.firstJump = false;
             } else if (!pullKeyDown) {
+                p.anim.SetBool("pulling", false);
                 pulling = false;
             }
             

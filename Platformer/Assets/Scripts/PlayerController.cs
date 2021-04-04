@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour
         // if (dashPressed) {
         //     Debug.Log("pressed");
         // }
-        Debug.Log(dashTimer);
+        //Debug.Log(dashTimer);
     }
 
     void FixedUpdate()
