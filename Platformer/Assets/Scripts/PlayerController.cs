@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     AudioSource jump2Sound;
     AudioSource dashSound;
     AudioSource deathSound;
-    AudioSource music;
+   // AudioSource music;
 
 
     private Rigidbody2D rb;
@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
     public GameObject cam;
 
     public bool isTouchingPlat;
-
-    public double playerHeight;
 
     public float deceleration;
     public float groundDeceleration;
@@ -36,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool facingRight;
 
     //Dash
-    public bool dash = false;
+    bool dash = false;
     public float dashSpeed;
     public float dashDuration;
     float dashTimer = 0.0f;
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
     public bool firstJump;
     public bool secondJump;
     float jumpStartTime;
-    public float yvel = 0f;
+    float yvel = 0f;
 
     bool touchingDoor = false;
 
@@ -73,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     public bool dashReset;
     
-    public bool canDash;
+    //public bool canDash;
     public bool canDoubleJump;
     public bool canWallJump;
 
@@ -96,6 +94,9 @@ public class PlayerController : MonoBehaviour
     public GameObject noah;
     public PushController pushController;
 
+    public GameObject music;
+    public AudioManager audioManager;
+
     void OnAwake()
     {
         cutsceneMusic.Stop();
@@ -113,11 +114,12 @@ public class PlayerController : MonoBehaviour
         jump2Sound = sounds[1];
         dashSound = sounds[2];
         deathSound = sounds[3];
-        music = sounds[4];
+        //music = sounds[4];
         dashReset = false;
         movables = GameObject.FindGameObjectsWithTag("MovablesParent")[0].GetComponentsInChildren<Transform>();
         cutsceneManager = GameObject.Find("CutsceneManager"); //to play next cutscene upon event do cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
-        music.Play();
+        audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
+        audioManager.PlayMusic();
         midcutsceneComplete = false;
     }
 
@@ -125,59 +127,10 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            //Movement Stuff
-
-            //Get Inputs
-            movingLeft = false;
-            movingRight = false;
-            jumpPressed = false;
-            dashPressed = false;
-            // To stop player from entering idle animation when switching directions
-            anim.SetBool("pressingLeftorRight", false);
-
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                movingLeft = true;
-                movingRight = false;
-                anim.SetBool("pressingLeftorRight", true);
-            }
-            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                movingLeft = false;
-                movingRight = true;
-                anim.SetBool("pressingLeftorRight", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
-            {
-                jumpPressed = true;
-                inputBuffer.Add(Time.time);
-                rb.gravityScale = normalGravity;
-            }
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
-            {
-                rb.gravityScale = fastFallGravity;
-            }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset && canDash)
-            {
-                dashPressed = true;
-            }
-
-            SideMovement();
-            tryBufferedJump();
-            Jump();
+            getInputs();
+            //Would sometimes not dash when in fixedupdate
             Dash();
 
-            if (canWallJump)
-            {
-                WallJump();
-            }
-
-            /*if (Input.GetKeyDown(KeyCode.R))
-            {
-                resetRoom();
-            }*/
-
-            rb.velocity = new Vector2(moveVelocity, yvel);
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
             if (rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f)
             {
@@ -202,7 +155,8 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y <= -5f)
         {
-            music.volume = 0.5f;
+            //music.volume = 0.5f;
+            audioManager.LowerVolume();
             resetRoom();
         }
 
@@ -215,9 +169,71 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    void getInputs() {
+        movingLeft = false;
+        movingRight = false;
+        jumpPressed = false;
+        dashPressed = false;
+        // To stop player from entering idle animation when switching directions
+        anim.SetBool("pressingLeftorRight", false);
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            movingLeft = true;
+            movingRight = false;
+            anim.SetBool("pressingLeftorRight", true);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            movingLeft = false;
+            movingRight = true;
+            anim.SetBool("pressingLeftorRight", true);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
+        {
+            jumpPressed = true;
+            inputBuffer.Add(Time.time);
+            rb.gravityScale = normalGravity;
+        }
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
+        {
+            rb.gravityScale = fastFallGravity;
+        }
+        //had canDash, but doesn't look like it was being used
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
+        {
+            dashPressed = true;
+        }
+
+        // if (dashPressed) {
+        //     Debug.Log("pressed");
+        // }
+        Debug.Log(dashTimer);
+    }
+
     void FixedUpdate()
     {
         //If we need to we can put the movement stuff here but it works in update for now
+        if (canMove) {
+            //Movement Stuff
+        
+            SideMovement();
+            tryBufferedJump();
+            Jump();
+            
+            if (canWallJump)
+            {
+                WallJump();
+            }
+
+            /*if (Input.GetKeyDown(KeyCode.R))
+            {
+                resetRoom();
+            }*/
+
+            rb.velocity = new Vector2(moveVelocity, yvel);
+        }
     }
 
     public void decelerate(bool onGround) {
@@ -227,7 +243,7 @@ public class PlayerController : MonoBehaviour
             deceleration = airDeceleration;
         }
 
-        if(moveVelocity <= 0.15f && moveVelocity >= -0.15f) {
+        if(moveVelocity <= 0.2f && moveVelocity >= -0.2f) {
             moveVelocity = 0;
         } else {
             // moveVelocity -= moveVelocity / deceleration;
@@ -269,29 +285,30 @@ public class PlayerController : MonoBehaviour
 
     void SideMovement() {
         
-        yvel = rb.velocity.y;
-
         //Left Right Movement
-        if (movingLeft)
-        {
-            accelerate(-speed);
-            if (facingRight && !pushController.pulling)
+        if (!dash) {
+            yvel = rb.velocity.y;
+            if (movingLeft)
             {
-                reverseImage();
+                accelerate(-speed);
+                if (facingRight && !pushController.pulling)
+                {
+                    reverseImage();
+                }
             }
-        }
-        else if (movingRight)
-        {
-            accelerate(speed);
-            if (!facingRight && !pushController.pulling)
+            else if (movingRight)
             {
-                reverseImage();
-            }
-        } else {
-            if(isTouchingPlat) {
-                decelerate(true);
+                accelerate(speed);
+                if (!facingRight && !pushController.pulling)
+                {
+                    reverseImage();
+                }
             } else {
-                decelerate(false);
+                if(isTouchingPlat) {
+                    decelerate(true);
+                } else {
+                    decelerate(false);
+                }
             }
         }
     }
@@ -313,7 +330,7 @@ public class PlayerController : MonoBehaviour
     //Player can jump slightly after leaving platform so game doesn't feel like its eating inputs
     public IEnumerator coyoteTime()
     {
-        yield return new WaitForSeconds((float)0.05);
+        yield return new WaitForSeconds((float)0.07);
         firstJump = false;
     }
 
@@ -370,21 +387,17 @@ public class PlayerController : MonoBehaviour
             dashPressed = false;
         }
 
-        //Update dash timers. Cannot dash infinitely.
-        if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
-        dashTimer += Time.deltaTime;
-
-        
         //Do not fall during dash, end dash if past timer
         if (dash)
         {
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             if(facingRight) {
                 moveVelocity = dashSpeed;
             } else {
                 moveVelocity = -dashSpeed;
             }
 
-            if(startedInAir && secondJump) {
+            if(startedInAir) {
                 yvel = 0;
             } else if (!secondJump) {
                 if(yvel <= 0) {
@@ -398,8 +411,13 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
                 startedInAir = true;
+                GetComponent<Rigidbody2D>().gravityScale = 5;
             }
         }
+
+        //Update dash timers. Cannot dash infinitely.
+        if (dashCooldownTimer > 0.0f) dashCooldownTimer -= Time.deltaTime;
+        dashTimer += Time.deltaTime;
     }
 
     void WallJump() {
@@ -479,11 +497,13 @@ public class PlayerController : MonoBehaviour
         yvel = 0;
         moveVelocity = 0;
         deathSound.Play();
+        audioManager.LowerVolume();
         canMove = false;
-        StartCoroutine(MusicCoroutine());
-        if (music.volume < 1)
+       // StartCoroutine(MusicCoroutine());
+       // cam.GetComponent<ScreenShake>().CameraShake();
+        if (audioManager.music.volume < 0.5f)
         {
-            music.volume += 0.005f;
+            audioManager.music.volume += 0.005f;
         }
         float resetX = cam.GetComponent<moveCamera>().room * cam.GetComponent<moveCamera>().roomWidth + initial_x;
         transform.position = new Vector3(resetX, -3f, 0f);
@@ -495,7 +515,7 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    IEnumerator MusicCoroutine()
+   /* IEnumerator MusicCoroutine()
     {
         music.volume = 0.1f;
         if (music.volume < 0.5f)
@@ -518,5 +538,5 @@ public class PlayerController : MonoBehaviour
             music.volume += 0.05f;
             yield return new WaitForSeconds(1);
         }
-    }
+    }*/
 }

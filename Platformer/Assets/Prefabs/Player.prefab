@@ -114,7 +114,6 @@ GameObject:
   - component: {fileID: 6821380425283945422}
   - component: {fileID: 6821380425283945423}
   - component: {fileID: 8811313051780117997}
-  - component: {fileID: 5132967797288075295}
   - component: {fileID: 7638832009804294449}
   - component: {fileID: 9005376414573845798}
   m_Layer: 0
@@ -255,15 +254,13 @@ MonoBehaviour:
   anim: {fileID: 0}
   cam: {fileID: 0}
   isTouchingPlat: 0
-  playerHeight: 0.75
   deceleration: 0
   groundDeceleration: 10
-  airDeceleration: 1
+  airDeceleration: 3
   acceleration: 100
   speed: 6
   moveVelocity: 0
   facingRight: 0
-  dash: 0
   dashSpeed: 35
   dashDuration: 0.1
   dashCooldown: 0.2
@@ -272,7 +269,6 @@ MonoBehaviour:
   secondJumpHeight: 15
   firstJump: 0
   secondJump: 0
-  yvel: 0
   wallSlidingSpeed: 2
   xWallForce: 6
   yWallForce: 15
@@ -282,7 +278,6 @@ MonoBehaviour:
   camera_init: {x: 0, y: 0, z: 0}
   dead: 0
   dashReset: 0
-  canDash: 1
   canDoubleJump: 0
   canWallJump: 0
   hitBox: {fileID: 6821380425283945418}
@@ -294,6 +289,8 @@ MonoBehaviour:
   cutsceneMusic: {fileID: 0}
   noah: {fileID: 0}
   pushController: {fileID: 6821380427102401389}
+  music: {fileID: 0}
+  audioManager: {fileID: 0}
 --- !u!82 &6821380425283945416
 AudioSource:
   m_ObjectHideFlags: 0
@@ -306,7 +303,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 222afd78f199d714cac9a6085d4e6b3c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -402,7 +399,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0ad3203f544cec64f970292e0d096444, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -498,7 +495,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4facd603e9a92ae49beefd57563dc14e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -594,105 +591,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: cb777f8e24443c047a3556f74c2decd9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!82 &5132967797288075295
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6821380425283945415}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9855c3548d5d4d6489dc28e28f4b9045, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -806,6 +707,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneManager: {fileID: 0}
+  music: {fileID: 0}
+  audioManager: {fileID: 0}
 --- !u!1 &6821380425296337190
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +891,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1.1
   Loop: 0
   Mute: 0

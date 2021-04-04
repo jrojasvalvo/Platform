@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b694af4841391b4fa91650b46dc034d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraScrollSpeed: 0.2
+  canScroll: 0
+  cameraScrollSpeed: 10
   room: 0
   roomWidth: 0
   roomHeight: 0

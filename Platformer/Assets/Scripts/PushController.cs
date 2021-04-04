@@ -75,11 +75,6 @@ public class PushController : MonoBehaviour
             } else {
                 p.anim.SetBool("pushing", false);
             }
-
-            if (p.moveVelocity == 0)
-            {
-                audioSource.Stop();
-            }
         }
     }
 

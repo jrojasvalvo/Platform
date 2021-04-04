@@ -63,6 +63,8 @@ public class Dialogue : MonoBehaviour
         textSound = GetComponent<AudioSource>();
         textDisplay.text = "";
         StartCoroutine(Type(textDisplay));
+
+        textSound.volume = 0.2f;
     }
 
     IEnumerator Type(TextMeshProUGUI t)
