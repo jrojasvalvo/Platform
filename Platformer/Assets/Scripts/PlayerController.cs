@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
     bool dashPressed;
     public float normalGravity;
     public float fastFallGravity;
+    float delay;
     private List<float> inputBuffer = new List<float>();
 
     public GameObject cutsceneManager;
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         facingRight = true;
         dead = false;
@@ -129,17 +130,22 @@ public class PlayerController : MonoBehaviour
         audioManager.PlayMusic();
         midcutsceneComplete = false;
         boss = GameObject.Find("Boss");
+<<<<<<< Updated upstream
         blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
         blackscreenImg = blackscreen.GetComponent<Image>();
 
+=======
+        delay = boss.GetComponent<bossController>().delay;
+>>>>>>> Stashed changes
     }
 
     void Update()
     {
         if (canMove)
         {
-            getInputs();
-            //Would sometimes not dash when in fixedupdate
+            StartCoroutine("getInputs");
+            // getInputs();
+            // Would sometimes not dash when in fixedupdate
             Dash();
 
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
@@ -181,46 +187,68 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void getInputs() {
+    public IEnumerator getInputs() {
         movingLeft = false;
         movingRight = false;
         jumpPressed = false;
         dashPressed = false;
-        // To stop player from entering idle animation when switching directions
-        anim.SetBool("pressingLeftorRight", false);
-
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            movingLeft = true;
-            movingRight = false;
-            anim.SetBool("pressingLeftorRight", true);
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            movingLeft = false;
-            movingRight = true;
-            anim.SetBool("pressingLeftorRight", true);
-        }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
-        {
-            jumpPressed = true;
-            inputBuffer.Add(Time.time);
-            rb.gravityScale = normalGravity;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
-        {
-            rb.gravityScale = fastFallGravity;
-        }
+        
         //had canDash, but doesn't look like it was being used
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
         {
             dashPressed = true;
         }
+        // To stop player from entering idle animation when switching directions
+        anim.SetBool("pressingLeftorRight", false);
+        yield return new WaitForSeconds(delay);
+        boss.GetComponent<bossController>().movingLeft = false;
+        boss.GetComponent<bossController>().movingRight = false;
+        boss.GetComponent<Animator>().SetBool("pressingLeftorRight", false);
+        
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
+        {
+            jumpPressed = true;
+            inputBuffer.Add(Time.time);
+            rb.gravityScale = normalGravity;
+            yield return new WaitForSeconds(delay);
+            boss.GetComponent<bossController>().rb.gravityScale = normalGravity;
+        }
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
+        {
+            rb.gravityScale = fastFallGravity;
+            yield return new WaitForSeconds(delay);
+            boss.GetComponent<bossController>().rb.gravityScale = fastFallGravity;
+        }
+        
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            movingLeft = true;
+            movingRight = false;
+            anim.SetBool("pressingLeftorRight", true);
+            yield return new WaitForSeconds(delay);
+            boss.GetComponent<bossController>().movingLeft = true;
+            boss.GetComponent<bossController>().movingRight = false;
+            
+        }
+<<<<<<< Updated upstream
 
         // if (dashPressed) {
         //     Debug.Log("pressed");
         // }
         //Debug.Log(dashTimer);
+=======
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            movingLeft = false;
+            movingRight = true;
+            anim.SetBool("pressingLeftorRight", true);
+            yield return new WaitForSeconds(delay);
+            boss.GetComponent<bossController>().movingLeft = false;
+            boss.GetComponent<bossController>().movingRight = true;
+        }
+        
+>>>>>>> Stashed changes
     }
 
     void FixedUpdate()
@@ -295,9 +323,9 @@ public class PlayerController : MonoBehaviour
     }
 
     void SideMovement() {
-        
         //Left Right Movement
         if (!dash) {
+            boss.GetComponent<bossController>().StartCoroutine("SideMovement");
             yvel = rb.velocity.y;
             if (movingLeft)
             {
@@ -348,7 +376,7 @@ public class PlayerController : MonoBehaviour
     void Jump() {
         if (jumpPressed)
         {
-            // boss.GetComponent<bossController>().StartCoroutine("bossJump");
+            boss.GetComponent<bossController>().StartCoroutine("Jump");
             if (firstJump)
             {
                 jump1Sound.Play();
@@ -386,7 +414,7 @@ public class PlayerController : MonoBehaviour
         //Dash
         if (dashPressed)
         {
-            // boss.GetComponent<bossController>().StartCoroutine("bossDash");
+            boss.GetComponent<bossController>().StartCoroutine("Dash");
             if(isTouchingPlat) {
                 startedInAir = false;
             }
