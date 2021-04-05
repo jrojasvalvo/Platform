@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7954928409768819439}
   m_Layer: 0
   m_Name: footCol
-  m_TagString: Foot
+  m_TagString: BossFoot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,6 +235,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5aad69a62fb384eb44937ce0f4c550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
+  delay: 0.5
+  rb: {fileID: 0}
+  hitBox: {fileID: 7954928410093795783}
   cam: {fileID: 0}
-  pushController: {fileID: 0}
+  movingLeft: 0
+  movingRight: 0
+  firstJump: 1
+  secondJump: 0
+  isTouchingPlat: 0
+  dashReset: 0

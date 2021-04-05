@@ -279,7 +279,7 @@ MonoBehaviour:
   dead: 0
   dashReset: 0
   canDoubleJump: 0
-  canWallJump: 0
+  canWallJump: 1
   bossInputDelay: 0
   boss: {fileID: 0}
   hitBox: {fileID: 6821380425283945418}
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6821380427102401391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 197544cdd51143144869be9d099e4865, type: 3}
   m_Name: 
