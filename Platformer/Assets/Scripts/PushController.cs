@@ -37,6 +37,7 @@ public class PushController : MonoBehaviour
         } if (Input.GetKeyUp(KeyCode.LeftControl)) {
             pullKeyDown = false;
             pulling = false;
+            p.anim.SetBool("pulling", false);
         }            
     }
 
