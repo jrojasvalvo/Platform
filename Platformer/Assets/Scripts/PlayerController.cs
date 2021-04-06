@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
     public bool dashReset;
     
-    //public bool canDash;
+    public bool canDash;
     public bool canDoubleJump;
     public bool canWallJump;
 
@@ -130,13 +130,10 @@ public class PlayerController : MonoBehaviour
         audioManager.PlayMusic();
         midcutsceneComplete = false;
         boss = GameObject.Find("Boss");
-<<<<<<< Updated upstream
         blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
         blackscreenImg = blackscreen.GetComponent<Image>();
 
-=======
         delay = boss.GetComponent<bossController>().delay;
->>>>>>> Stashed changes
     }
 
     void Update()
@@ -144,8 +141,7 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             StartCoroutine("getInputs");
-            // getInputs();
-            // Would sometimes not dash when in fixedupdate
+
             Dash();
 
             anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
@@ -184,17 +180,20 @@ public class PlayerController : MonoBehaviour
             cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
             midcutsceneComplete = true;
         }
+
+        
+        
     }
 
 
     public IEnumerator getInputs() {
         movingLeft = false;
         movingRight = false;
-        jumpPressed = false;
+        //jumpPressed = false;
         dashPressed = false;
         
         //had canDash, but doesn't look like it was being used
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
+        if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
         {
             dashPressed = true;
         }
@@ -206,7 +205,7 @@ public class PlayerController : MonoBehaviour
         boss.GetComponent<Animator>().SetBool("pressingLeftorRight", false);
         
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !touchingDoor)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             jumpPressed = true;
             inputBuffer.Add(Time.time);
@@ -214,7 +213,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(delay);
             boss.GetComponent<bossController>().rb.gravityScale = normalGravity;
         }
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) && !touchingDoor)
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             rb.gravityScale = fastFallGravity;
             yield return new WaitForSeconds(delay);
@@ -231,13 +230,6 @@ public class PlayerController : MonoBehaviour
             boss.GetComponent<bossController>().movingRight = false;
             
         }
-<<<<<<< Updated upstream
-
-        // if (dashPressed) {
-        //     Debug.Log("pressed");
-        // }
-        //Debug.Log(dashTimer);
-=======
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             movingLeft = false;
@@ -247,8 +239,7 @@ public class PlayerController : MonoBehaviour
             boss.GetComponent<bossController>().movingLeft = false;
             boss.GetComponent<bossController>().movingRight = true;
         }
-        
->>>>>>> Stashed changes
+    
     }
 
     void FixedUpdate()
@@ -256,10 +247,12 @@ public class PlayerController : MonoBehaviour
         //If we need to we can put the movement stuff here but it works in update for now
         if (canMove) {
             //Movement Stuff
-        
+
             SideMovement();
+            
             tryBufferedJump();
             Jump();
+            
             
             if (canWallJump)
             {
@@ -376,6 +369,7 @@ public class PlayerController : MonoBehaviour
     void Jump() {
         if (jumpPressed)
         {
+            jumpPressed = false;
             boss.GetComponent<bossController>().StartCoroutine("Jump");
             if (firstJump)
             {
@@ -387,13 +381,12 @@ public class PlayerController : MonoBehaviour
                 }
                 firstJump = false;
             }
-            else if (secondJump && Time.time - jumpStartTime >= cooldown && !wallSliding && canDoubleJump)
+            else if (secondJump && !wallSliding && canDoubleJump && Time.time - jumpStartTime >= cooldown)
             {
                 jump2Sound.Play();
-                yvel =  secondJumpHeight;
+                yvel = secondJumpHeight;
                 secondJump = false;
             }
-
             if (wallSliding && touchingWallLeft && canWallJump) {
                 jump2Sound.Play();
                 moveVelocity = xWallForce;

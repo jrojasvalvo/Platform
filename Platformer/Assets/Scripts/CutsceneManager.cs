@@ -70,9 +70,9 @@ public class CutsceneManager : MonoBehaviour
     public void PlayNext()
     {   
         //canDash is never really used
-        // if(index > 1) {
-        //     player.GetComponent<PlayerController>().canDash = true;
-        // }
+        if(index > 1) {
+            player.GetComponent<PlayerController>().canDash = true;
+        }
         cutsceneMusic.SetActive(true);
         if (index < cutscenes.Length)
         {
