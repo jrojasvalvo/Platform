@@ -27,4 +27,12 @@ public class CutsceneMusic : MonoBehaviour
     {
         music.volume -= 0.005f;
     }
+
+    public void IncreaseVolume()
+    {
+        if (music.volume < 0.2f)
+        {
+            music.volume += 0.005f;
+        }
+    }
 }

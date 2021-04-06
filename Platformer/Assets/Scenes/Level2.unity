@@ -684,6 +684,16 @@ PrefabInstance:
       propertyPath: pushSound
       value: 
       objectReference: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
+    - target: {fileID: 9005376414573845798, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 1893359370}
+    - target: {fileID: 9005376414573845798, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
+      propertyPath: cutsceneManager
+      value: 
+      objectReference: {fileID: 657586932}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c27ba14cb3acbc14c9aa25886dce0cb1, type: 3}
 --- !u!1001 &474332382
@@ -12605,6 +12615,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3213809934923215554, guid: 7d96f7ed446e2c34e9aa50558af74afc,
+        type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 154117794}
     - target: {fileID: 3213809934923215554, guid: 7d96f7ed446e2c34e9aa50558af74afc,
         type: 3}
       propertyPath: player
