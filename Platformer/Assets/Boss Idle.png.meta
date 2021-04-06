@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: f631e233615b9854aa7224597ebb672b
+guid: e5b9e24f2f0486946a16fe4816527c16
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6378023622594767823
-    second: Boss Dash  _0
+      213: 4249754765541169284
+    second: Boss Idle _0
   - first:
-      213: 2896713160933158873
-    second: Boss Dash  _1
+      213: -6337496391323513685
+    second: Boss Idle _1
   - first:
-      213: 4395873105776910640
-    second: Boss Dash  _2
+      213: -7748830476086019434
+    second: Boss Idle _2
   - first:
-      213: -6114864454517534253
-    second: Boss Dash  _3
+      213: 4664302432486847925
+    second: Boss Idle _3
+  - first:
+      213: -1851103842479698571
+    second: Boss Idle _4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -147,85 +150,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Boss Dash  _0
+      name: Boss Idle _0
       rect:
         serializedVersion: 2
-        x: 9
+        x: 8
+        y: 7
+        width: 47
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 488da9e61792afa30800000000000000
+      internalID: 4249754765541169284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss Idle _1
+      rect:
+        serializedVersion: 2
+        x: 60
         y: 5
-        width: 58
-        height: 53
+        width: 47
+        height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1345036be45bc77a0800000000000000
-      internalID: -6378023622594767823
+      spriteID: bac87dd0c90bc08a0800000000000000
+      internalID: -6337496391323513685
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boss Dash  _1
+      name: Boss Idle _2
       rect:
         serializedVersion: 2
-        x: 71
-        y: 10
-        width: 57
-        height: 47
+        x: 107
+        y: 5
+        width: 47
+        height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9dfae9db541333820800000000000000
-      internalID: 2896713160933158873
+      spriteID: 69afb20bcbf967490800000000000000
+      internalID: -7748830476086019434
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boss Dash  _2
+      name: Boss Idle _3
       rect:
         serializedVersion: 2
-        x: 137
-        y: 6
-        width: 60
-        height: 50
+        x: 154
+        y: 5
+        width: 47
+        height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 031a683ac47410d30800000000000000
-      internalID: 4395873105776910640
+      spriteID: 5b57e5d895eeab040800000000000000
+      internalID: 4664302432486847925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boss Dash  _3
+      name: Boss Idle _4
       rect:
         serializedVersion: 2
-        x: 203
+        x: 212
         y: 6
         width: 25
         height: 49
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d1d1d23d23a32ba0800000000000000
-      internalID: -6114864454517534253
+      spriteID: 57d03a2ecde8f46e0800000000000000
+      internalID: -1851103842479698571
       vertices: []
       indices: 
       edges: []

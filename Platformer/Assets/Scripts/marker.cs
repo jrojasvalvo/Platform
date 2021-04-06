@@ -26,7 +26,7 @@ public class marker : MonoBehaviour
     {
         if(type == "dash") {
             //had p.canDash, but doesn't look like its being used anywhere
-            if(p.dashReset) {
+            if(p.canDash && p.dashReset) {
                 s.enabled = true;
             } else {
                 s.enabled = false;

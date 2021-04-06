@@ -15,7 +15,7 @@ public class CutsceneManager : MonoBehaviour
     public GameObject[] dialogboxes;
     public GameObject cutsceneMusic;
     public GameObject cutsceneActiveObj;
-    bool dialogueActive;
+    public bool dialogueActive;
 
     public GameObject music;
     public CutsceneMusic cutsceneAudioManager;
@@ -32,7 +32,6 @@ public class CutsceneManager : MonoBehaviour
         PlayNext();
 
         cutsceneAudioManager = GameObject.FindWithTag("Music2").GetComponent<CutsceneMusic>();
-        cutsceneAudioManager.PlayMusic();
     }
 
     void FixedUpdate()
@@ -50,33 +49,47 @@ public class CutsceneManager : MonoBehaviour
         {
             cutsceneActive = cutsceneActive || g.activeSelf;
         }
-        if (dialogueActive)
-        {
+        // if (dialogueActive)
+        // {
+        //     player.GetComponent<PlayerController>().enabled = false;
+        // } else if (cutsceneActive)
+        // {
+        //     player.GetComponent<PlayerController>().enabled = false;
+        // } else
+        if (dialogueActive && cutsceneActive){
             player.GetComponent<PlayerController>().enabled = false;
+        } else {
+            player.GetComponent<PlayerController>().enabled = true;
+            //cutsceneMusic.SetActive(false);
+        }
+
+        if (!cutsceneActive)
+        {
+            cutsceneAudioManager.FadeVolume();
         } else if (cutsceneActive)
         {
-            player.GetComponent<PlayerController>().enabled = false;
-        } else
-        {
-            player.GetComponent<PlayerController>().enabled = true;
-            cutsceneAudioManager.FadeVolume();
-            //cutsceneMusic.SetActive(false);
+            cutsceneAudioManager.IncreaseVolume();
         }
     }
 
     // Plays the next cutscene
     public void PlayNext()
-    {   
+    {
         //canDash is never really used
-        // if(index > 1) {
-        //     player.GetComponent<PlayerController>().canDash = true;
-        // }
+        if (index > 1) {
+            player.GetComponent<PlayerController>().canDash = true;
+        }
         cutsceneMusic.SetActive(true);
         if (index < cutscenes.Length)
         {
             cutscenes[index].SetActive(true);
             index++;
         }
+        // } else {
+        //     foreach (GameObject c in cutscenes) {
+        //         c.SetActive(false);
+        //     }
+        // }
         
     }
 }

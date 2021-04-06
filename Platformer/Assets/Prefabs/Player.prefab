@@ -251,11 +251,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0522c4a0ef01d1e4493fa2f2c582a513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 7638832009804294449}
   cam: {fileID: 0}
   isTouchingPlat: 0
   deceleration: 0
-  groundDeceleration: 10
+  groundDeceleration: 30
   airDeceleration: 3
   acceleration: 100
   speed: 6
@@ -264,7 +264,7 @@ MonoBehaviour:
   dashSpeed: 35
   dashDuration: 0.1
   dashCooldown: 0.2
-  cooldown: 0.2
+  cooldown: 0.1
   firstJumpHeight: 20
   secondJumpHeight: 15
   firstJump: 0
@@ -279,7 +279,9 @@ MonoBehaviour:
   dead: 0
   dashReset: 0
   canDoubleJump: 0
-  canWallJump: 0
+  canWallJump: 1
+  bossInputDelay: 0
+  boss: {fileID: 0}
   hitBox: {fileID: 6821380425283945418}
   movingLeft: 0
   movingRight: 0
@@ -872,7 +874,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6821380427102401391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 197544cdd51143144869be9d099e4865, type: 3}
   m_Name: 
