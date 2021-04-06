@@ -536,6 +536,8 @@ public class PlayerController : MonoBehaviour
         deathSound.Play();
         audioManager.LowerVolume();
         canMove = false;
+        anim.SetBool("dash", false);
+        rb.gravityScale = normalGravity;
        // StartCoroutine(MusicCoroutine());
        // cam.GetComponent<ScreenShake>().CameraShake();
         if (audioManager.music.volume < 0.5f)
