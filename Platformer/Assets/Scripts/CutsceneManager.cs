@@ -15,7 +15,7 @@ public class CutsceneManager : MonoBehaviour
     public GameObject[] dialogboxes;
     public GameObject cutsceneMusic;
     public GameObject cutsceneActiveObj;
-    bool dialogueActive;
+    public bool dialogueActive;
 
     public GameObject music;
     public CutsceneMusic cutsceneAudioManager;
@@ -50,14 +50,16 @@ public class CutsceneManager : MonoBehaviour
         {
             cutsceneActive = cutsceneActive || g.activeSelf;
         }
-        if (dialogueActive)
-        {
+        // if (dialogueActive)
+        // {
+        //     player.GetComponent<PlayerController>().enabled = false;
+        // } else if (cutsceneActive)
+        // {
+        //     player.GetComponent<PlayerController>().enabled = false;
+        // } else
+        if (dialogueActive && cutsceneActive){
             player.GetComponent<PlayerController>().enabled = false;
-        } else if (cutsceneActive)
-        {
-            player.GetComponent<PlayerController>().enabled = false;
-        } else
-        {
+        } else {
             player.GetComponent<PlayerController>().enabled = true;
             cutsceneAudioManager.FadeVolume();
             //cutsceneMusic.SetActive(false);
@@ -77,6 +79,11 @@ public class CutsceneManager : MonoBehaviour
             cutscenes[index].SetActive(true);
             index++;
         }
+        // } else {
+        //     foreach (GameObject c in cutscenes) {
+        //         c.SetActive(false);
+        //     }
+        // }
         
     }
 }
