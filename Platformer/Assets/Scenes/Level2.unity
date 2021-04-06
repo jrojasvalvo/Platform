@@ -43409,6 +43409,11 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[95].Array.data[23].Y
       value: -51100108
       objectReference: {fileID: 0}
+    - target: {fileID: 3411786055044677633, guid: 27ff49c4830ee0048af129f07dab23b0,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4747834718488834045, guid: 27ff49c4830ee0048af129f07dab23b0,
         type: 3}
       propertyPath: m_Size.x
