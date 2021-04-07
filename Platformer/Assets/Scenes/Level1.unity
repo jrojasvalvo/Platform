@@ -1141,7 +1141,8 @@ PrefabInstance:
     - target: {fileID: 2979623123714975813, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
       propertyPath: sentences.Array.data[5]
-      value: You can move really quickly over a short distance by pressing shift.
+      value: You can move really quickly over a short distance by pressing <LEFT
+        SHIFT>.
       objectReference: {fileID: 0}
     - target: {fileID: 2979623123714975813, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
@@ -27229,6 +27230,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6821380427102401389, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
+      propertyPath: pushSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
     - target: {fileID: 5946818526024601865, guid: 1532c463c57ae564eb0078fb93676d77,
         type: 3}
       propertyPath: m_SortingOrder
@@ -27319,11 +27325,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6821380427102401389, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
-        type: 3}
-      propertyPath: pushSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1532c463c57ae564eb0078fb93676d77, type: 3}
 --- !u!1001 &6821380425497087603

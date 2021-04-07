@@ -18,6 +18,6 @@ public class buttonController : MonoBehaviour
     }
 
     public void load() {
-        SceneManager.LoadScene("HubLevel");
+        SceneManager.LoadScene("StartingScene");
     }
 }

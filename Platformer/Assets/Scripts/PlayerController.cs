@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
         audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
         audioManager.PlayMusic();
         midcutsceneComplete = false;
-        boss = GameObject.Find("Boss");
+        boss = GameObject.FindGameObjectsWithTag("Boss")[0];
         blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
         blackscreenImg = blackscreen.GetComponent<Image>();
 

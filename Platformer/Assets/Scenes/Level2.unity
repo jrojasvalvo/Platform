@@ -909,6 +909,12 @@ PrefabInstance:
       propertyPath: cutsceneManager
       value: 
       objectReference: {fileID: 657586932}
+    - target: {fileID: 7330214868792116361, guid: 20c3bf8bf76933148801911e9ff29439,
+        type: 3}
+      propertyPath: sentences.Array.data[11]
+      value: Well, better late than never. Here, if you <JUMP TWICE>, you can do
+        a cool trick called a double jump.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20c3bf8bf76933148801911e9ff29439, type: 3}
 --- !u!1 &483677781 stripped
