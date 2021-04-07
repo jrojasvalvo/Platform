@@ -522,7 +522,7 @@ public class PlayerController : MonoBehaviour
         if(col.tag == "Hazard") {
             resetRoom();
         }
-        if (col.tag == "Boss" && invincible > 5)
+        if (col.tag == "Boss" && invincible > 5 && SceneManager.GetActiveScene().name == "Level3")
         {
             resetRoom();
         }
@@ -584,9 +584,11 @@ public class PlayerController : MonoBehaviour
         yvel = 0f;
         moveVelocity = 0f;
 
-        boss.transform.position = new Vector3(resetX, -3f, 0f);
-        boss.GetComponent<bossController>().yvel = 0f;
-        boss.GetComponent<bossController>().moveVelocity = 0f;
+        if(SceneManager.GetActiveScene().name == "Level3") {
+            boss.transform.position = new Vector3(resetX, -3f, 0f);
+            boss.GetComponent<bossController>().yvel = 0f;
+            boss.GetComponent<bossController>().moveVelocity = 0f;
+        }
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }

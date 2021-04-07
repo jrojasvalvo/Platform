@@ -53,7 +53,7 @@ public class doorController : MonoBehaviour
                 d.PlaySound();
             } else if (!locked && doorNum == 31) {
                 SceneManager.LoadScene("Hospital");
-                d.PlaySound();
+                d.PlaySound();  
             }
             else {
                 lockedDialogue.SetActive(true);
