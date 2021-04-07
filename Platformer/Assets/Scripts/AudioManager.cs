@@ -25,6 +25,6 @@ public class AudioManager : MonoBehaviour
 
     public void LowerVolume()
     {
-        music.volume = 0.1f;
+        music.volume = 0;
     }
 }
