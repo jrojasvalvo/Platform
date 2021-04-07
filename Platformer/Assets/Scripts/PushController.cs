@@ -46,6 +46,10 @@ public class PushController : MonoBehaviour
         if(col.tag == "Movable") {
             if (pullKeyDown) {
                 pulling = true;
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(pushSound);
+                }
                 offset = p.transform.position - col.gameObject.transform.position;
                 box = col.gameObject;
                 p.firstJump = false;

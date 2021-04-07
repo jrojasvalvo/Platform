@@ -32,7 +32,6 @@ public class CutsceneManager : MonoBehaviour
         PlayNext();
 
         cutsceneAudioManager = GameObject.FindWithTag("Music2").GetComponent<CutsceneMusic>();
-        cutsceneAudioManager.PlayMusic();
     }
 
     void FixedUpdate()
@@ -61,16 +60,23 @@ public class CutsceneManager : MonoBehaviour
             player.GetComponent<PlayerController>().enabled = false;
         } else {
             player.GetComponent<PlayerController>().enabled = true;
-            cutsceneAudioManager.FadeVolume();
             //cutsceneMusic.SetActive(false);
+        }
+
+        if (!cutsceneActive)
+        {
+            cutsceneAudioManager.FadeVolume();
+        } else if (cutsceneActive)
+        {
+            cutsceneAudioManager.IncreaseVolume();
         }
     }
 
     // Plays the next cutscene
     public void PlayNext()
-    {   
+    {
         //canDash is never really used
-        if(index > 1) {
+        if (index > 1) {
             player.GetComponent<PlayerController>().canDash = true;
         }
         cutsceneMusic.SetActive(true);
