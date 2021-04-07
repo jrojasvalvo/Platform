@@ -56,7 +56,7 @@ public class CutsceneManager : MonoBehaviour
         // {
         //     player.GetComponent<PlayerController>().enabled = false;
         // } else
-        if (dialogueActive && cutsceneActive){
+        if (dialogueActive || cutsceneActive){
             player.GetComponent<PlayerController>().enabled = false;
         } else {
             player.GetComponent<PlayerController>().enabled = true;
