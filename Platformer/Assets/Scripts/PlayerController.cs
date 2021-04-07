@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject cutsceneManager;
     private bool midcutsceneComplete;
+    private bool midcutscene2;
 
     public AudioSource cutsceneMusic;
     bool startedInAir = true;
@@ -104,6 +105,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject blackscreen;
     public Image blackscreenImg;
+
+    float invincible;
 
     void OnAwake()
     {
@@ -129,10 +132,11 @@ public class PlayerController : MonoBehaviour
         audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
         audioManager.PlayMusic();
         midcutsceneComplete = false;
+        midcutscene2 = false;
         boss = GameObject.Find("Boss");
         blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
         blackscreenImg = blackscreen.GetComponent<Image>();
-
+        invincible = 0f;
         delay = boss.GetComponent<bossController>().delay;
     }
 
@@ -181,8 +185,20 @@ public class PlayerController : MonoBehaviour
             midcutsceneComplete = true;
         }
 
-        
-        
+        //Level 3 Cutscene Trigger
+        if (!midcutsceneComplete && SceneManager.GetActiveScene().name == "Level3" && rb.transform.position.x > 46)
+        {
+            cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            midcutsceneComplete = true;
+        }
+        //Level 3 Cutscene Trigger
+        if (!midcutscene2 && SceneManager.GetActiveScene().name == "Level3" && rb.transform.position.x > 62)
+        {
+            cutsceneManager.GetComponent<CutsceneManager>().PlayNext();
+            midcutscene2 = true;
+        }
+        invincible += 0.1f;
+
     }
 
 
@@ -455,7 +471,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void WallJump() {
-        // boss.GetComponent<bossController>().StartCoroutine("bossWallJump");
+        boss.GetComponent<bossController>().StartCoroutine("bossWallJump");
         if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
             wallSliding = true;
         } else {
@@ -494,6 +510,10 @@ public class PlayerController : MonoBehaviour
         if(col.tag == "Hazard") {
             resetRoom();
         }
+        if (col.tag == "Boss" && invincible > 5)
+        {
+            resetRoom();
+        }
     }
 
     void OnCollisionStay2D(Collision2D col) 
@@ -501,14 +521,17 @@ public class PlayerController : MonoBehaviour
         if (col.collider.tag == "Wall") 
         {
             dashReset = true;
-            if(col.transform.position.x < transform.position.x) {
+            if (!facingRight)
+            {
                 touchingWallLeft = true;
-                if(moveVelocity < 0) {
+                if (moveVelocity < 0)
+                {
                     moveVelocity = 0;
                 }
-            } else if(col.transform.position.x >= transform.position.x) {
+            } else if (facingRight)     {
                 touchingWallRight = true;
-                if(moveVelocity > 0) {
+                if (moveVelocity > 0)
+                {
                     moveVelocity = 0;
                 }
             }
@@ -549,13 +572,14 @@ public class PlayerController : MonoBehaviour
         yvel = 0f;
         moveVelocity = 0f;
 
-        // boss.transform.position = new Vector3(resetX, -3f, 0f);
-        // boss.GetComponent<bossController>().yvel = 0f;
-        // boss.GetComponent<bossController>().moveVelocity = 0f;
+        boss.transform.position = new Vector3(resetX, -3f, 0f);
+        boss.GetComponent<bossController>().yvel = 0f;
+        boss.GetComponent<bossController>().moveVelocity = 0f;
         for(int i = 1; i < movables.Length; i++) {
             movables[i].gameObject.GetComponent<movableObjectController>().reset();
         }
         canMove = true;
+        invincible = 0f;
     }
 
     IEnumerator DeathScreenFade()
