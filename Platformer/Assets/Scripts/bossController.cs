@@ -27,7 +27,7 @@ public class bossController : MonoBehaviour
     public bool secondJump;
     float firstJumpHeight;
     float secondJumpHeight;
-    float yvel;
+    public float yvel;
     public bool isTouchingPlat;
     float cooldown;
     bool canDoubleJump;
@@ -37,7 +37,7 @@ public class bossController : MonoBehaviour
     bool touchingWallLeft;
     bool touchingWallRight;
     bool canWallJump;
-    float moveVelocity;
+    public float moveVelocity;
     float xWallForce;
     float yWallForce;
     float wallSlidingSpeed;
@@ -308,17 +308,22 @@ public class bossController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col) 
     {
-        if (col.collider.tag == "Wall") 
+        if (col.collider.tag == "Wall")
         {
             dashReset = true;
-            if(!facingRight) {
+            if (!facingRight)
+            {
                 touchingWallLeft = true;
-                if(moveVelocity < 0) {
+                if (moveVelocity < 0)
+                {
                     moveVelocity = 0;
                 }
-            } else if(facingRight) {
+            }
+            else if (facingRight)
+            {
                 touchingWallRight = true;
-                if(moveVelocity > 0) {
+                if (moveVelocity > 0)
+                {
                     moveVelocity = 0;
                 }
             }
