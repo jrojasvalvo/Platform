@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour
     public GameObject blackscreen;
     public Image blackscreenImg;
 
+    GameObject abilities;
+    AbilityTracker a;
+
     void OnAwake()
     {
         cutsceneMusic.Stop();
@@ -112,6 +115,17 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        abilities = GameObject.FindGameObjectsWithTag("Abilities")[0];
+        a = abilities.GetComponent<AbilityTracker>();
+        if(a.dash) {
+            canDash = true;
+        }
+        if(a.doubleJump) {
+            canDoubleJump = true;
+        }
+        if(a.wallJump) {
+            canWallJump = true;
+        }
         rb = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         facingRight = true;
@@ -129,7 +143,7 @@ public class PlayerController : MonoBehaviour
         audioManager = GameObject.FindWithTag("Music").GetComponent<AudioManager>();
         audioManager.PlayMusic();
         midcutsceneComplete = false;
-        boss = GameObject.Find("Boss");
+        boss = GameObject.FindGameObjectsWithTag("Boss")[0];
         blackscreen = GameObject.Find("Blackscreen").transform.GetChild(0).gameObject;
         blackscreenImg = blackscreen.GetComponent<Image>();
 

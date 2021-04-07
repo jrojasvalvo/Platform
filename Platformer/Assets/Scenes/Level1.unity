@@ -1141,7 +1141,8 @@ PrefabInstance:
     - target: {fileID: 2979623123714975813, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
       propertyPath: sentences.Array.data[5]
-      value: You can move really quickly over a short distance by pressing shift.
+      value: You can move really quickly over a short distance by pressing <LEFT
+        SHIFT>.
       objectReference: {fileID: 0}
     - target: {fileID: 2979623123714975813, guid: c4b0e8ba81816994dbcfc8ec2cdcb5ec,
         type: 3}
