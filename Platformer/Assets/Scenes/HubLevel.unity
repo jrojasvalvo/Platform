@@ -1903,11 +1903,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6821380427102401389, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
-        type: 3}
-      propertyPath: pushSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
     - target: {fileID: 5946818526024601859, guid: 1532c463c57ae564eb0078fb93676d77,
         type: 3}
       propertyPath: m_IsActive
@@ -2023,6 +2018,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6821380427102401389, guid: c27ba14cb3acbc14c9aa25886dce0cb1,
+        type: 3}
+      propertyPath: pushSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b9071ad020c63e4393a49d190749fd1, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1532c463c57ae564eb0078fb93676d77, type: 3}
 --- !u!1 &1292114092
@@ -7136,7 +7136,7 @@ PrefabInstance:
     - target: {fileID: 7709039547892091524, guid: 6a300f8c5c48d5c49967ebd5c91105f5,
         type: 3}
       propertyPath: m_Volume
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7709039547892091525, guid: 6a300f8c5c48d5c49967ebd5c91105f5,
         type: 3}
