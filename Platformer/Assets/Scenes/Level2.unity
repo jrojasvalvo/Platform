@@ -217,7 +217,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ffb9a0a7aae3e524898e80622e3ae41b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13076,7 +13076,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cbcd5df0ef8c4834c9e485a40a5e4017, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9855c3548d5d4d6489dc28e28f4b9045, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -13302,21 +13302,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 219876619, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 219876620, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 316813260, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 316813261, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 644416764, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 644416766, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1286759683, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1286759684, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603585440, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1603585441, guid: 7d96f7ed446e2c34e9aa50558af74afc, type: 3}
       propertyPath: m_RootOrder
