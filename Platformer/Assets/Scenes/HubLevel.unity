@@ -7180,7 +7180,7 @@ PrefabInstance:
     - target: {fileID: 5483359136940743315, guid: 7baa2dbc340efde4faa8111260c92db0,
         type: 3}
       propertyPath: cameraScrollSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5483359136940743343, guid: 7baa2dbc340efde4faa8111260c92db0,
         type: 3}
