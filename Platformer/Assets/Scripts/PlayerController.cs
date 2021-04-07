@@ -157,7 +157,8 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            StartCoroutine("getInputs");
+            // StartCoroutine(getInputs());
+            getInputs();
 
             Dash();
 
@@ -215,23 +216,23 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public IEnumerator getInputs() {
+    // public IEnumerator getInputs() {
+    void getInputs() {
         movingLeft = false;
         movingRight = false;
         //jumpPressed = false;
         dashPressed = false;
         
-        //had canDash, but doesn't look like it was being used
         if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0.0f && dashReset)
         {
             dashPressed = true;
         }
         // To stop player from entering idle animation when switching directions
         anim.SetBool("pressingLeftorRight", false);
-        yield return new WaitForSeconds(delay);
-        boss.GetComponent<bossController>().movingLeft = false;
-        boss.GetComponent<bossController>().movingRight = false;
-        boss.GetComponent<Animator>().SetBool("pressingLeftorRight", false);
+        // yield return new WaitForSeconds(delay);
+        // boss.GetComponent<bossController>().movingLeft = false;
+        // boss.GetComponent<bossController>().movingRight = false;
+        // boss.GetComponent<Animator>().SetBool("pressingLeftorRight", false);
         
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -239,14 +240,12 @@ public class PlayerController : MonoBehaviour
             jumpPressed = true;
             inputBuffer.Add(Time.time);
             rb.gravityScale = normalGravity;
-            yield return new WaitForSeconds(delay);
-            boss.GetComponent<bossController>().rb.gravityScale = normalGravity;
+            StartCoroutine(boss.GetComponent<bossController>().changeGravity(true));
         }
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             rb.gravityScale = fastFallGravity;
-            yield return new WaitForSeconds(delay);
-            boss.GetComponent<bossController>().rb.gravityScale = fastFallGravity;
+            StartCoroutine(boss.GetComponent<bossController>().changeGravity(false));
         }
         
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
@@ -254,9 +253,9 @@ public class PlayerController : MonoBehaviour
             movingLeft = true;
             movingRight = false;
             anim.SetBool("pressingLeftorRight", true);
-            yield return new WaitForSeconds(delay);
-            boss.GetComponent<bossController>().movingLeft = true;
-            boss.GetComponent<bossController>().movingRight = false;
+            // yield return new WaitForSeconds(delay);
+            // boss.GetComponent<bossController>().movingLeft = true;
+            // boss.GetComponent<bossController>().movingRight = false;
             
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
@@ -264,9 +263,9 @@ public class PlayerController : MonoBehaviour
             movingLeft = false;
             movingRight = true;
             anim.SetBool("pressingLeftorRight", true);
-            yield return new WaitForSeconds(delay);
-            boss.GetComponent<bossController>().movingLeft = false;
-            boss.GetComponent<bossController>().movingRight = true;
+            // yield return new WaitForSeconds(delay);
+            // boss.GetComponent<bossController>().movingLeft = false;
+            // boss.GetComponent<bossController>().movingRight = true;
         }
     
     }
@@ -347,7 +346,7 @@ public class PlayerController : MonoBehaviour
     void SideMovement() {
         //Left Right Movement
         if (!dash) {
-            boss.GetComponent<bossController>().StartCoroutine("SideMovement");
+            StartCoroutine(boss.GetComponent<bossController>().SideMovement(movingLeft, movingRight));
             yvel = rb.velocity.y;
             if (movingLeft)
             {
@@ -399,7 +398,7 @@ public class PlayerController : MonoBehaviour
         if (jumpPressed)
         {
             jumpPressed = false;
-            boss.GetComponent<bossController>().StartCoroutine("Jump");
+            StartCoroutine(boss.GetComponent<bossController>().Jump());
             if (firstJump)
             {
                 jump1Sound.Play();
@@ -474,7 +473,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
                 startedInAir = true;
-                GetComponent<Rigidbody2D>().gravityScale = 5;
+                GetComponent<Rigidbody2D>().gravityScale = normalGravity;
             }
         }
 
@@ -484,7 +483,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void WallJump() {
-        boss.GetComponent<bossController>().StartCoroutine("bossWallJump");
+        boss.GetComponent<bossController>().StartCoroutine("WallJump");
         if ((touchingWallLeft || touchingWallRight) && !isTouchingPlat) {
             wallSliding = true;
         } else {

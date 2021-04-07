@@ -63,6 +63,7 @@ public class bossController : MonoBehaviour
         secondJumpHeight = pc.secondJumpHeight;
         xWallForce = pc.xWallForce;
         yWallForce = pc.yWallForce;
+        wallSlidingSpeed = pc.wallSlidingSpeed;
         groundDeceleration = pc.groundDeceleration;
         airDeceleration = pc.airDeceleration;
         acceleration = pc.acceleration;
@@ -77,7 +78,7 @@ public class bossController : MonoBehaviour
 
     void Update() {
         anim.SetFloat("xvel", Mathf.Abs(rb.velocity.x));
-        if(movingLeft || movingRight) anim.SetBool("pressingLeftorRight", true);
+        anim.SetBool("pressingLeftorRight", (movingLeft || movingRight));
         if (rb.velocity.y >= -0.15f && rb.velocity.y <= 0.15f)
         {
             anim.SetBool("movingUp", false);
@@ -104,8 +105,10 @@ public class bossController : MonoBehaviour
         rb.velocity = new Vector2(moveVelocity, yvel);
     }
 
-    public IEnumerator SideMovement() {
+    public IEnumerator SideMovement(bool left, bool right) {
         yield return new WaitForSeconds(delay);
+        movingLeft = left;
+        movingRight = right;
         //Left Right Movement
         yvel = rb.velocity.y;
         if (movingLeft)
@@ -188,6 +191,7 @@ public class bossController : MonoBehaviour
 
     public IEnumerator Jump() {
         yield return new WaitForSeconds(delay);
+        
         if (firstJump)
         {
             jumpStartTime = Time.time;
@@ -213,6 +217,15 @@ public class bossController : MonoBehaviour
             yvel = yWallForce;
             wallSliding = false;
             touchingWallRight = false;
+        }
+    }
+
+    public IEnumerator changeGravity(bool hold) {
+        yield return new WaitForSeconds(delay);
+        if (hold) {
+            rb.gravityScale = pc.normalGravity;
+        } else {
+            rb.gravityScale = pc.fastFallGravity;
         }
     }
 
@@ -255,7 +268,7 @@ public class bossController : MonoBehaviour
                 anim.SetBool("dash", false);
                 moveVelocity /= dashSpeed;
                 startedInAir = true;
-                rb.gravityScale = 5;
+                rb.gravityScale = pc.normalGravity;
             }
         }
 
