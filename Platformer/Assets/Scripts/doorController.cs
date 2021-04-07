@@ -14,10 +14,15 @@ public class doorController : MonoBehaviour
 
     public GameObject doorSound;
     public doorSound d;
+
+    GameObject abilities;
+    AbilityTracker a;
     // Start is called before the first frame update
     void Start()
     {
         lockedDialogue.SetActive(false);
+        abilities = GameObject.FindGameObjectsWithTag("Abilities")[0];
+        a = abilities.GetComponent<AbilityTracker>();
 
         d = GameObject.FindWithTag("Sound").GetComponent<doorSound>();
     }
@@ -35,11 +40,16 @@ public class doorController : MonoBehaviour
             } else if(!locked && doorNum == 11) {
                 SceneManager.LoadScene("HubLevel");
                 d.PlaySound();
+                a.dash = true;
             } else if(!locked && doorNum == 2) {
                 SceneManager.LoadScene("Level2");
                 d.PlaySound();
             } else if (!locked && doorNum == 21) {
                 SceneManager.LoadScene("HubLevel");
+                d.PlaySound();
+                a.doubleJump = true;
+            } else if (!locked && doorNum == 3) {
+                SceneManager.LoadScene("Level3");
                 d.PlaySound();
             }
             else {
