@@ -15,6 +15,7 @@ TagManager:
   - Music
   - Music2
   - BossFoot
+  - Abilities
   layers:
   - Default
   - TransparentFX
